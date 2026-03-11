@@ -27,6 +27,8 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
         batch.begin();
         batch.draw(square, 50, 50);
+        batch.draw(square, 100, 50);
+        batch.draw(square, 150, 50);
         batch.end();
     }
 
