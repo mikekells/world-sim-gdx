@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture square;
+    private static final int TILE_SIZE = 32;
 
     @Override
     public void create() {
@@ -25,10 +26,13 @@ public class Main extends ApplicationAdapter {
     @Override
     public void render() {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
+
         batch.begin();
-        batch.draw(square, 50, 50);
-        batch.draw(square, 100, 50);
-        batch.draw(square, 150, 50);
+
+        batch.draw(square, 0 * TILE_SIZE, 0 * TILE_SIZE);
+        batch.draw(square, 1 * TILE_SIZE, 0 * TILE_SIZE);
+        batch.draw(square, 2 * TILE_SIZE, 0 * TILE_SIZE);
+
         batch.end();
     }
 
