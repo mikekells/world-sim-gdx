@@ -29,9 +29,14 @@ public class Main extends ApplicationAdapter {
 
         batch.begin();
 
-        batch.draw(square, 0 * TILE_SIZE, 0 * TILE_SIZE);
-        batch.draw(square, 1 * TILE_SIZE, 0 * TILE_SIZE);
-        batch.draw(square, 2 * TILE_SIZE, 0 * TILE_SIZE);
+        int width = 10;
+        int height = 6;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                batch.draw(square, x * TILE_SIZE, y * TILE_SIZE);
+            }
+        }
 
         batch.end();
     }
