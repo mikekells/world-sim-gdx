@@ -9,18 +9,34 @@ import com.badlogic.gdx.utils.ScreenUtils;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
-    private Texture square;
+    private Texture wallTexture;
+    private Texture pillarTexture;
     private static final int TILE_SIZE = 32;
+
+    private final int[][] map = {
+        {1, 1, 1, 1, 1},
+        {1, 0, 0, 0, 1},
+        {1, 0, 2, 0, 1},
+        {1, 0, 0, 0, 1},
+        {1, 1, 1, 1, 1}
+    };
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        Pixmap pixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
-        pixmap.setColor(1, 1, 1, 1);
-        pixmap.fill();
+        Pixmap wallPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        wallPixmap.setColor(1, 1, 1, 1);
+        wallPixmap.fill();
 
-        square = new Texture(pixmap);
-        pixmap.dispose();
+        wallTexture = new Texture(wallPixmap);
+        wallPixmap.dispose();
+
+        Pixmap pillarPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        pillarPixmap.setColor(1, 0, 0, 1);
+        pillarPixmap.fill();
+
+        pillarTexture = new Texture(pillarPixmap);
+        pillarPixmap.dispose();
     }
 
     @Override
@@ -29,12 +45,13 @@ public class Main extends ApplicationAdapter {
 
         batch.begin();
 
-        int width = 10;
-        int height = 6;
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                batch.draw(square, x * TILE_SIZE, y * TILE_SIZE);
+        for (int y = 0; y < map.length; y++) {
+            for (int x = 0; x < map[y].length; x++) {
+                if (map[y][x] == 1) {
+                    batch.draw(wallTexture, x * TILE_SIZE, y * TILE_SIZE);
+                } else if (map[y][x] == 2) {
+                    batch.draw(pillarTexture, x * TILE_SIZE, y * TILE_SIZE);
+                }
             }
         }
 
@@ -44,6 +61,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
-        square.dispose();
+        wallTexture.dispose();
+        pillarTexture.dispose();
     }
 }
