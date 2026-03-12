@@ -9,13 +9,15 @@ public class TileRenderer {
 
     private final Texture wallTexture;
     private final Texture pillarTexture;
+    private final Texture playerTexture;
 
-    public TileRenderer(Texture wallTexture, Texture pillarTexture) {
+    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture) {
         this.wallTexture = wallTexture;
         this.pillarTexture = pillarTexture;
+        this.playerTexture = playerTexture;
     }
 
-    public void render(SpriteBatch batch, TileMap tileMap) {
+    public void render(SpriteBatch batch, TileMap tileMap, Player player) {
         for (int y = 0; y < tileMap.getHeight(); y++) {
             for (int x = 0; x < tileMap.getWidth(); x++) {
 
@@ -28,5 +30,7 @@ public class TileRenderer {
                 }
             }
         }
+
+        batch.draw(playerTexture, player.getX() * TILE_SIZE, player.getY() * TILE_SIZE);
     }
 }
