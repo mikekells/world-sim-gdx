@@ -12,6 +12,8 @@ public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture wallTexture;
     private Texture pillarTexture;
+    private Texture playerTexture;
+    private Player player;
     private TileRenderer tileRenderer;
     private TileMap tileMap;
     private OrthographicCamera camera;
@@ -44,7 +46,15 @@ public class Main extends ApplicationAdapter {
         pillarTexture = new Texture(pillarPixmap);
         pillarPixmap.dispose();
 
-        tileRenderer = new TileRenderer(wallTexture, pillarTexture);
+        Pixmap playerPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        playerPixmap.setColor(0, 0, 1, 1);
+        playerPixmap.fill();
+        playerTexture = new Texture(playerPixmap);
+        playerPixmap.dispose();
+
+        player = new Player(2, 1);
+
+        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture);
     }
 
     @Override
@@ -55,7 +65,7 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        tileRenderer.render(batch, tileMap);
+        tileRenderer.render(batch, tileMap, player);
         batch.end();
     }
 
@@ -64,5 +74,6 @@ public class Main extends ApplicationAdapter {
         batch.dispose();
         wallTexture.dispose();
         pillarTexture.dispose();
+        playerTexture.dispose();
     }
 }
