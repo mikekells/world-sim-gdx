@@ -12,18 +12,12 @@ public class Main extends ApplicationAdapter {
     private Texture wallTexture;
     private Texture pillarTexture;
     private TileRenderer tileRenderer;
-
-    private final int[][] map = {
-        {1, 1, 1, 1, 1},
-        {1, 0, 0, 0, 1},
-        {1, 0, 2, 0, 1},
-        {1, 0, 0, 0, 1},
-        {1, 1, 1, 1, 1}
-    };
+    private TileMap tileMap;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
+        tileMap = new TileMap();
 
         Pixmap wallPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
         wallPixmap.setColor(1, 1, 1, 1);
@@ -45,7 +39,7 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
 
         batch.begin();
-        tileRenderer.render(batch, map);
+        tileRenderer.render(batch, tileMap.getTiles());
         batch.end();
     }
 
