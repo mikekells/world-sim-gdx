@@ -1,6 +1,8 @@
 package uk.co.kellsnet.worldsim;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -64,6 +66,11 @@ public class Main extends ApplicationAdapter {
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) tryMovePlayer(0, 1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) tryMovePlayer(0, -1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) tryMovePlayer(-1, 0);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) tryMovePlayer(1, 0);
+
         batch.begin();
         tileRenderer.render(batch, tileMap, player);
         batch.end();
@@ -75,5 +82,16 @@ public class Main extends ApplicationAdapter {
         wallTexture.dispose();
         pillarTexture.dispose();
         playerTexture.dispose();
+    }
+
+    private void tryMovePlayer(int dx, int dy) {
+        int targetX = player.getX() + dx;
+        int targetY = player.getY() + dy;
+
+        TileType tile = tileMap.getTile(targetX, targetY);
+
+        if (tile != TileType.WALL) {
+            player.move(dx, dy);
+        }
     }
 }
