@@ -88,10 +88,16 @@ public class Main extends ApplicationAdapter {
         int targetX = player.getX() + dx;
         int targetY = player.getY() + dy;
 
-        TileType tile = tileMap.getTile(targetX, targetY);
-
-        if (tile != TileType.WALL) {
-            player.move(dx, dy);
+        if (inBounds(targetX, targetY)) {
+            TileType tile = tileMap.getTile(targetX, targetY);
+            if (tile.isWalkable()) {
+                player.move(dx, dy);
+            }
         }
+
+    }
+
+    private boolean inBounds(int dx, int dy) {
+        return dx >= 0 && dx < tileMap.getWidth() && dy >= 0 && dy < tileMap.getHeight();
     }
 }
