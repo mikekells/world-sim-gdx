@@ -39,7 +39,7 @@ public class Main extends ApplicationAdapter {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
 
         batch.begin();
-        tileRenderer.render(batch, tileMap.getTiles());
+        tileRenderer.render(batch, tileMap);
         batch.end();
     }
 

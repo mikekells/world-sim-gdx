@@ -15,13 +15,16 @@ public class TileRenderer {
         this.pillarTexture = pillarTexture;
     }
 
-    public void render(SpriteBatch batch, int[][] map) {
-        for (int y = 0; y < map.length; y++) {
-            for (int x = 0; x < map[y].length; x++) {
-                if (map[y][x] == 1) {
-                    batch.draw(wallTexture, x * TILE_SIZE, y * TILE_SIZE);
-                } else if (map[y][x] == 2) {
-                    batch.draw(pillarTexture, x * TILE_SIZE, y * TILE_SIZE);
+    public void render(SpriteBatch batch, TileMap tileMap) {
+        for (int y = 0; y < tileMap.getHeight(); y++) {
+            for (int x = 0; x < tileMap.getWidth(); x++) {
+
+                TileType tile = tileMap.getTile(x, y);
+
+                switch (tile) {
+                    case WALL -> batch.draw(wallTexture, x * TILE_SIZE, y * TILE_SIZE);
+                    case PILLAR -> batch.draw(pillarTexture, x * TILE_SIZE, y * TILE_SIZE);
+                    default -> {}
                 }
             }
         }
