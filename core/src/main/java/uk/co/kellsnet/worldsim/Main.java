@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
+    private static final boolean DEBUG = true;
+
     private SpriteBatch batch;
     private Texture wallTexture;
     private Texture pillarTexture;
@@ -88,16 +90,32 @@ public class Main extends ApplicationAdapter {
         int targetX = player.getX() + dx;
         int targetY = player.getY() + dy;
 
-        if (inBounds(targetX, targetY)) {
-            TileType tile = tileMap.getTile(targetX, targetY);
-            if (tile.isWalkable()) {
-                player.move(dx, dy);
-            }
+        debug("[MOVE] Attempting move to (" + targetX + ", " + targetY + ")");
+
+        if (!inBounds(targetX, targetY)) {
+            debug("[MOVE] Blocked: target out of bounds");
+            return;
+        }
+
+        TileType tile = tileMap.getTile(targetX, targetY);
+        debug("[MOVE] Target tile is " + tile);
+
+        if (tile.isWalkable()) {
+            player.move(dx, dy);
+            debug("[MOVE] Success: player now at (" + player.getX() + ", " + player.getY() + ")");
+        } else {
+            debug("[MOVE] Blocked: tile is not walkable");
         }
 
     }
 
     private boolean inBounds(int dx, int dy) {
         return dx >= 0 && dx < tileMap.getWidth() && dy >= 0 && dy < tileMap.getHeight();
+    }
+
+    private void debug(String message) {
+        if (DEBUG) {
+            System.out.println(message);
+        }
     }
 }
