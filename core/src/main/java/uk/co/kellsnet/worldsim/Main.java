@@ -33,12 +33,6 @@ public class Main extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
 
-        int worldWidth = tileMap.getWidth() * 32;
-        int worldHeight = tileMap.getHeight() * 32;
-
-        camera.position.set(worldWidth / 2f, worldHeight / 2f, 0);
-        camera.update();
-
         batch.setProjectionMatrix(camera.combined);
 
         Pixmap wallPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
@@ -61,6 +55,8 @@ public class Main extends ApplicationAdapter {
 
         player = new Player(2, 1);
         debug("[PLAYER] Starting position = (" + player.getX() + ", " + player.getY() + ")");
+
+        updateCamera();
 
         tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture);
     }
@@ -107,6 +103,8 @@ public class Main extends ApplicationAdapter {
         if (tile.isWalkable()) {
             player.move(dx, dy);
             debug("[MOVE] Success: player now at (" + player.getX() + ", " + player.getY() + ")");
+            debug("[MOVE] Stood on tile type: " + tile);
+            updateCamera();
         } else {
             debug("[MOVE] Blocked: tile is not walkable");
         }
@@ -115,6 +113,17 @@ public class Main extends ApplicationAdapter {
 
     private boolean inBounds(int dx, int dy) {
         return dx >= 0 && dx < tileMap.getWidth() && dy >= 0 && dy < tileMap.getHeight();
+    }
+
+    private void updateCamera() {
+
+        float playerCenterX = player.getX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+        float playerCenterY = player.getY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+
+        camera.position.set(playerCenterX, playerCenterY, 0);
+        camera.update();
+
+        debug("[CAMERA] Centered on (" + playerCenterX + ", " + playerCenterY + ")");
     }
 
     private void debug(String message) {
