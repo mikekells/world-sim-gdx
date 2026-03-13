@@ -27,6 +27,9 @@ public class Main extends ApplicationAdapter {
         batch = new SpriteBatch();
         tileMap = new TileMap();
 
+        debug("[INIT] create() called");
+        debug("[MAP] Map size = " + tileMap.getWidth() + " x " + tileMap.getHeight());
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
 
@@ -57,6 +60,7 @@ public class Main extends ApplicationAdapter {
         playerPixmap.dispose();
 
         player = new Player(2, 1);
+        debug("[PLAYER] Starting position = (" + player.getX() + ", " + player.getY() + ")");
 
         tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture);
     }
