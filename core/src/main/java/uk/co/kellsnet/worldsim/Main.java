@@ -23,6 +23,8 @@ public class Main extends ApplicationAdapter {
     private TileRenderer tileRenderer;
     private TileMap tileMap;
     private OrthographicCamera camera;
+    private float moveTimer = 0f;
+    private final float moveDelay = 0.18f;
 
     @Override
     public void create() {
@@ -74,13 +76,27 @@ public class Main extends ApplicationAdapter {
     public void render() {
         ScreenUtils.clear(0f, 0f, 0f, 1f);
 
+        float delta = Gdx.graphics.getDeltaTime();
+        moveTimer -= delta;
+
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) tryMovePlayer(0, 1);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) tryMovePlayer(0, -1);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) tryMovePlayer(-1, 0);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) tryMovePlayer(1, 0);
+        if (moveTimer <= 0f) {
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                tryMovePlayer(0, 1);
+                moveTimer = moveDelay;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                tryMovePlayer(0, -1);
+                moveTimer = moveDelay;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                tryMovePlayer(-1, 0);
+                moveTimer = moveDelay;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                tryMovePlayer(1, 0);
+                moveTimer = moveDelay;
+            }
+        }
 
         batch.begin();
         tileRenderer.render(batch, tileMap, player, camera);
