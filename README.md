@@ -1,191 +1,161 @@
-# Java 2D Game Development Learning (LibGDX)
+# Java + LibGDX Game Development Journey
 
-This repository documents my journey learning **Java game development using LibGDX**.
+This repository documents my journey learning **Java** and **LibGDX** while building the foundations of a **2D tile-based game engine**.
 
-I previously built a **console-based tile world simulation** in Java to understand object-oriented design, entity systems, and grid-based world logic.  
-This project continues that work by transitioning the simulation into a **graphical 2D environment using LibGDX**.
+The goal is to gradually move from simple console-based simulations to a fully functional graphical engine capable of supporting small games.
 
-The aim is to build a strong understanding of how game engines work while gradually developing the systems required to create my own games.
-
----
-
-## Progress
-
-- [x] Console tile world simulation
-- [x] LibGDX project setup
-- [x] Tile rendering
-- [x] Player movement
-- [ ] Camera follow
-- [ ] Large map rendering
-- [ ] Camera bounds
-- [ ] Entity system
+This project is intentionally built **step-by-step**, focusing on understanding core concepts rather than jumping straight to complex frameworks.
 
 ---
 
-## Project Goals
+# Goals
 
-The current focus is learning the **fundamentals of 2D rendering and game loops** while building a simple tile-based engine.
+The long-term objective is to develop the knowledge required to build small games, including:
 
-Key learning areas:
-
-- LibGDX application lifecycle
-- Game loop structure
-- Rendering with `SpriteBatch`
 - Tile-based world rendering
 - Camera systems
-- Player movement and collision
-- Separation of logic and rendering
+- Entity systems
+- Player movement and interaction
+- Basic game systems such as inventory and dialogue
 
----
-
-## Technologies
-
-- Java 17
-- LibGDX
-- IntelliJ IDEA
-- Ubuntu Linux
-- Gradle
-
----
-
-## Project Structure
-
-```
-uk.co.kellsnet.worldsim
-│
-├── Main.java
-│   Entry point for the LibGDX application
-│   Handles input, camera, and the render loop
-│
-├── TileMap.java
-│   Stores the tile grid and world layout
-│
-├── TileType.java
-│   Defines tile behaviour (walkable / blocked)
-│
-├── TileRenderer.java
-│   Responsible for rendering tiles and entities
-│
-└── Player.java
-    Player position and movement logic
-```
-
----
-
-## Current Features
-
-- Tile-based world map
-- Player movement using WASD
-- Collision against walls
-- Tile rendering system
-- Placeholder sprites generated with Pixmap
-- Orthographic camera
-
----
-
-## Learning Roadmap
-
-This project is being developed incrementally while learning LibGDX concepts.
-
-### Phase 1 – Rendering Fundamentals
-
-- Tile rendering
-- Player sprite rendering
-- Input handling
-- Camera follow
-- Larger world maps
-- Camera bounds
-
-### Phase 2 – World Systems
-
-- Entity system
-- Update loop
-- Multiple entities
-- Tile interactions
-- Collision improvements
-
-### Phase 3 – Movement Systems
-
-- Pixel-based movement
-- Delta time
-- Player speed
-- Camera smoothing
-
-### Phase 4 – Sprites and Animation
-
-- Sprite sheets
-- Texture atlases
-- Animated player movement
-- Animated tiles
-
-### Phase 5 – Gameplay Systems
-
-- Doors and interactions
-- Inventory
-- UI elements
-- Basic game mechanics
-
----
-
-## Long-Term Goal
-
-The long-term objective is to build a small **2D sprite-based game** using the systems developed in this repository.
-
-Planned experimental projects include:
+These foundations will later support projects such as:
 
 - A **Tamagotchi-style virtual pet**
-- Tile-based exploration mechanics
-- Small simulation-style gameplay systems
 
 ---
 
-## Why This Repository Exists
+# Technologies
 
-This repository serves several purposes:
-
-- Track my **learning progress**
-- Practice **clean architecture and Java fundamentals**
-- Understand how **2D game engines work internally**
-- Document the transition from **console simulations to graphical games**
-
-The project is intentionally built **step-by-step**, with systems added gradually as understanding improves.
+- **Java 17**
+- **LibGDX**
+- **IntelliJ IDEA**
+- **Ubuntu Linux**
+- **Git / GitHub**
 
 ---
 
-## Author
+# What This Project Teaches
 
-Mike Kells
+This repository focuses on understanding the core ideas behind game engines:
+
+- Game loops
+- Tile-based worlds
+- Coordinate systems (tile vs pixel space)
+- Camera movement and clamping
+- Rendering pipelines
+- Basic procedural world generation
+
+Rather than copying tutorials, the aim is to **build systems from scratch and understand why they work**.
 
 ---
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/libgdx/gdx-liftoff).
+# Engine Concepts Learned So Far
 
-This project was generated with a template including simple application launchers and an `ApplicationAdapter` extension that draws libGDX logo.
+### Coordinate Systems
 
-## Platforms
+The engine currently uses multiple coordinate systems:
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3; was called 'desktop' in older docs.
+| System | Purpose |
+|------|------|
+| Tile Coordinates | Game logic and world layout |
+| Pixel Coordinates | Rendering positions |
+| Camera Coordinates | Determines what part of the world is visible |
 
-## Gradle
+Understanding how to convert between these systems is a key part of building a tile engine.
 
-This project uses [Gradle](https://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+---
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
+# Progress
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+## Phase 1 – Console Engine Foundations
+
+- [x] Console tile world simulation
+- [x] Tile grid world
+- [x] Player movement and collision
+- [x] Game state management
+- [x] Console renderer separation
+
+## Phase 2 – LibGDX Rendering
+
+- [x] LibGDX project setup
+- [x] Tile rendering
+- [x] Player rendering
+- [x] Player movement (tile based)
+
+## Phase 3 – Camera System
+
+- [x] Camera follow player
+- [x] Camera centering math
+- [x] Camera bounds / clamping
+- [x] Large map rendering
+- [x] Render only visible tiles
+
+## Phase 4 – Map Generation
+
+- [x] Procedural map generation
+- [x] Map borders / walls
+- [x] Feature placement (pillars)
+
+## Phase 5 – Engine Structure (In Progress)
+
+- [ ] Rendering layers
+- [ ] Input repeat (hold key to move)
+- [ ] Smooth movement
+- [ ] Entity system
+- [ ] Basic NPC / enemy entities
+
+## Phase 6 – Gameplay Systems
+
+- [ ] Interaction system
+- [ ] Inventory
+- [ ] Dialogue / messages
+- [ ] Items and pickups
+
+## Phase 7 – Visual Improvements
+
+- [ ] Sprite sheets
+- [ ] Animation
+- [ ] Lighting / atmosphere
+- [ ] Sound effects
+
+---
+
+# Current State
+
+The project currently includes:
+
+- A procedurally generated tile map
+- Player movement and collision
+- A camera that follows the player
+- Camera clamping to world bounds
+- Rendering of only visible tiles for efficiency
+
+These systems form the early structure of a **simple tile-based game engine**.
+
+---
+
+# Why This Repository Exists
+
+This project serves as:
+
+- A **learning log**
+- A **reference for future projects**
+- A **foundation for building small games**
+
+It tracks the process of gradually moving from beginner programming knowledge to building functional game systems.
+
+---
+
+# Future Plans
+
+Planned future improvements include:
+
+- Rendering layers (floor, objects, entities)
+- Smooth player movement
+- An entity system for NPCs and enemies
+- Interaction mechanics
+- Basic game UI systems
+- Sprite animation
+- Sound and atmosphere
+
+The goal is to continue expanding the engine while maintaining clear and understandable code.

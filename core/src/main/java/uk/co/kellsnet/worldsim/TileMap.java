@@ -9,8 +9,8 @@ public class TileMap {
     private final int height;
 
     public TileMap() {
-        width = 60;
-        height = 40;
+        width = 30;
+        height = 30;
         tiles = new TileType[height][width];
 
         generateMap();
