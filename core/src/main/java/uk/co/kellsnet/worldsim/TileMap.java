@@ -2,6 +2,8 @@ package uk.co.kellsnet.worldsim;
 
 public class TileMap {
 
+    public static final int TILE_SIZE = 32;
+
     private final TileType[][] tiles = {
         {TileType.WALL, TileType.WALL, TileType.EMPTY, TileType.WALL, TileType.WALL},
         {TileType.WALL,  TileType.EMPTY, TileType.EMPTY, TileType.EMPTY, TileType.WALL},
