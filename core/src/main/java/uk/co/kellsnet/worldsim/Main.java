@@ -76,7 +76,7 @@ public class Main extends ApplicationAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) tryMovePlayer(1, 0);
 
         batch.begin();
-        tileRenderer.render(batch, tileMap, player);
+        tileRenderer.render(batch, tileMap, player, camera);
         batch.end();
     }
 
