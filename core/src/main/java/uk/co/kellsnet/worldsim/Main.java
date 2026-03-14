@@ -29,6 +29,7 @@ public class Main extends ApplicationAdapter {
         tileMap = new TileMap();
 
         debug("[INIT] create() called");
+        debug("[MAP] Map size = " + tileMap.getWidth() + " x " + tileMap.getHeight());
         debug("[MAP] World pixels  = " + tileMap.getWidth() * TileMap.TILE_SIZE + " x " + tileMap.getHeight() * TileMap.TILE_SIZE);
 
         camera = new OrthographicCamera();
@@ -75,7 +76,7 @@ public class Main extends ApplicationAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.D)) tryMovePlayer(1, 0);
 
         batch.begin();
-        tileRenderer.render(batch, tileMap, player);
+        tileRenderer.render(batch, tileMap, player, camera);
         batch.end();
     }
 
