@@ -17,7 +17,7 @@ public class TileMap {
     }
 
     private void generateMap() {
-        fillWithEmpty();
+        fillWithFloor();
         buildWalls();
         placePillar();
     }
@@ -42,10 +42,10 @@ public class TileMap {
         }
     }
 
-    private void fillWithEmpty() {
+    private void fillWithFloor() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                tiles[y][x] = TileType.EMPTY;
+                tiles[y][x] = TileType.FLOOR;
             }
         }
     }

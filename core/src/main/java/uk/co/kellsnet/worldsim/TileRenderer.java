@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class TileRenderer {
+    private final Texture floorTexture;
     private final Texture wallTexture;
     private final Texture pillarTexture;
     private final Texture playerTexture;
 
-    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture) {
+    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture floorTexture) {
+        this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.pillarTexture = pillarTexture;
         this.playerTexture = playerTexture;
@@ -34,12 +36,24 @@ public class TileRenderer {
 
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {
+                int drawX = x * TileMap.TILE_SIZE;
+                int drawY = y * TileMap.TILE_SIZE;
+
+                batch.draw(floorTexture, drawX, drawY);
+            }
+        }
+
+        for (int y = startY; y <= endY; y++) {
+            for (int x = startX; x <= endX; x++) {
+
+                int drawX = x * TileMap.TILE_SIZE;
+                int drawY = y * TileMap.TILE_SIZE;
 
                 TileType tile = tileMap.getTile(x, y);
 
                 switch (tile) {
-                    case WALL -> batch.draw(wallTexture, x * TileMap.TILE_SIZE, y * TileMap.TILE_SIZE);
-                    case PILLAR -> batch.draw(pillarTexture, x * TileMap.TILE_SIZE, y * TileMap.TILE_SIZE);
+                    case WALL -> batch.draw(wallTexture, drawX, drawY);
+                    case PILLAR -> batch.draw(pillarTexture, drawX, drawY);
                     default -> {}
                 }
             }
