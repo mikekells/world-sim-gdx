@@ -6,11 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class TileRenderer {
+    private final Texture floorTexture;
     private final Texture wallTexture;
     private final Texture pillarTexture;
     private final Texture playerTexture;
 
-    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture) {
+    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture floorTexture) {
+        this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.pillarTexture = pillarTexture;
         this.playerTexture = playerTexture;
@@ -31,6 +33,16 @@ public class TileRenderer {
         startY = Math.max(0, startY);
         endX = Math.min(tileMap.getWidth() - 1, endX);
         endY = Math.min(tileMap.getHeight() - 1, endY);
+
+        for (int y = startY; y <= endY; y++) {
+            for (int x = startX; x <= endX; x++) {
+                TileType tile = tileMap.getTile(x, y);
+
+                if (tile == TileType.EMPTY) {
+                    batch.draw(floorTexture, x * TileMap.TILE_SIZE, y * TileMap.TILE_SIZE);
+                }
+            }
+        }
 
         for (int y = startY; y <= endY; y++) {
             for (int x = startX; x <= endX; x++) {

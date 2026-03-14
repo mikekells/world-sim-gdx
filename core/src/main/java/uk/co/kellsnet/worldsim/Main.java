@@ -15,6 +15,7 @@ public class Main extends ApplicationAdapter {
     private static final boolean DEBUG = true;
 
     private SpriteBatch batch;
+    private Texture floorTexture;
     private Texture wallTexture;
     private Texture pillarTexture;
     private Texture playerTexture;
@@ -36,6 +37,12 @@ public class Main extends ApplicationAdapter {
         camera.setToOrtho(false, 800, 600);
 
         batch.setProjectionMatrix(camera.combined);
+
+        Pixmap floorPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
+        floorPixmap.setColor(0.1f, 0.5f, 0.1f, 1);;
+        floorPixmap.fill();
+        floorTexture = new Texture(floorPixmap);
+        floorPixmap.dispose();
 
         Pixmap wallPixmap = new Pixmap(32, 32, Pixmap.Format.RGBA8888);
         wallPixmap.setColor(1, 1, 1, 1);
@@ -60,7 +67,7 @@ public class Main extends ApplicationAdapter {
 
         updateCamera();
 
-        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture);
+        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, floorTexture);
     }
 
     @Override
@@ -83,6 +90,7 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         batch.dispose();
+        floorTexture.dispose();
         wallTexture.dispose();
         pillarTexture.dispose();
         playerTexture.dispose();

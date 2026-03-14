@@ -679,3 +679,24 @@ Patterns used so far:
 - Range-based random logic
 
 These are not just game patterns — they are general programming habits that will keep becoming useful in larger projects.
+
+---
+
+# Example Colors You Might Try
+
+Stone floor: `setColor(0.3f, 0.3f, 0.3f, 1);`
+
+Grass: `setColor(0.1f, 0.5f, 0.1f, 1);`
+
+Sand: `setColor(0.8f, 0.7f, 0.3f, 1);`
+
+Water: `setColor(0.1f, 0.2f, 0.8f, 1);`
+
+| Value         | Color       |
+| ------------- | ----------- |
+| `0,0,0`       | black       |
+| `0.2,0.2,0.2` | dark grey   |
+| `0.5,0.5,0.5` | medium grey |
+| `0.8,0.8,0.8` | light grey  |
+| `1,1,1`       | white       |
+
