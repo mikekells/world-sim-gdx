@@ -21,13 +21,13 @@ public class TileRenderer {
                 TileType tile = tileMap.getTile(x, y);
 
                 switch (tile) {
-                    case WALL -> batch.draw(wallTexture, x * tileMap.TILE_SIZE, y * tileMap.TILE_SIZE);
-                    case PILLAR -> batch.draw(pillarTexture, x * tileMap.TILE_SIZE, y * tileMap.TILE_SIZE);
+                    case WALL -> batch.draw(wallTexture, x * TileMap.TILE_SIZE, y * TileMap.TILE_SIZE);
+                    case PILLAR -> batch.draw(pillarTexture, x * TileMap.TILE_SIZE, y * TileMap.TILE_SIZE);
                     default -> {}
                 }
             }
         }
 
-        batch.draw(playerTexture, player.getX() * tileMap.TILE_SIZE, player.getY() * tileMap.TILE_SIZE);
+        batch.draw(playerTexture, player.getX() * TileMap.TILE_SIZE, player.getY() * TileMap.TILE_SIZE);
     }
 }

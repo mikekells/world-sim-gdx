@@ -29,6 +29,7 @@ public class Main extends ApplicationAdapter {
         tileMap = new TileMap();
 
         debug("[INIT] create() called");
+        debug("[MAP] Map size = " + tileMap.getWidth() + " x " + tileMap.getHeight());
         debug("[MAP] World pixels  = " + tileMap.getWidth() * TileMap.TILE_SIZE + " x " + tileMap.getHeight() * TileMap.TILE_SIZE);
 
         camera = new OrthographicCamera();
