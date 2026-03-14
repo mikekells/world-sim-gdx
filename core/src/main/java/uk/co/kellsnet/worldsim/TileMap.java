@@ -45,7 +45,7 @@ public class TileMap {
     private void fillWithEmpty() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                tiles[y][x] = TileType.EMPTY;
+                tiles[y][x] = TileType.FLOOR;
             }
         }
     }
