@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -28,7 +29,7 @@ public class Main extends ApplicationAdapter {
         tileMap = new TileMap();
 
         debug("[INIT] create() called");
-        debug("[MAP] Map size = " + tileMap.getWidth() + " x " + tileMap.getHeight());
+        debug("[MAP] World pixels  = " + tileMap.getWidth() * TileMap.TILE_SIZE + " x " + tileMap.getHeight() * TileMap.TILE_SIZE);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 600);
@@ -116,14 +117,22 @@ public class Main extends ApplicationAdapter {
     }
 
     private void updateCamera() {
-
         float playerCenterX = player.getX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
         float playerCenterY = player.getY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+
+        float worldWidth = tileMap.getWidth() * TileMap.TILE_SIZE;
+        float worldHeight = tileMap.getHeight() * TileMap.TILE_SIZE;
+
+        float halfViewportWidth = camera.viewportWidth / 2;
+        float halfViewportHeight = camera.viewportHeight / 2;
+
+        playerCenterX = MathUtils.clamp(playerCenterX, halfViewportWidth, worldWidth - halfViewportWidth);
+        playerCenterY = MathUtils.clamp(playerCenterY, halfViewportHeight, worldHeight - halfViewportHeight);
 
         camera.position.set(playerCenterX, playerCenterY, 0);
         camera.update();
 
-        debug("[CAMERA] Centered on (" + playerCenterX + ", " + playerCenterY + ")");
+        debug("[CAMERA] Clamped center = (" + playerCenterX + ", " + playerCenterY + ")");
     }
 
     private void debug(String message) {
