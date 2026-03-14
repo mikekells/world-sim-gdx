@@ -700,3 +700,80 @@ Water: `setColor(0.1f, 0.2f, 0.8f, 1);`
 | `0.8,0.8,0.8` | light grey  |
 | `1,1,1`       | white       |
 
+# Timer Pattern
+### A cooldown timer.
+
+```timer -= delta
+if(timer <= 0) {
+    do action
+    timer = delay
+}
+```
+
+The logic now looks like this:
+
+```
+player holds key
+↓
+check if timer expired
+↓
+perform action
+↓
+reset timer
+```
+
+In code terms:
+
+```
+moveTimer -= delta;
+
+if (moveTimer <= 0f) {
+    tryMovePlayer(...);
+    moveTimer = moveDelay;
+}
+```
+
+This pattern is extremely common in games.
+
+### Where This Pattern Appears Later
+ Exactly the same logic is used for things like:
+
+### Weapon firing
+```
+shootTimer -= delta
+
+if (shootTimer <= 0) {
+    fireBullet()
+    shootTimer = fireDelay
+}
+```
+
+### Enemy attacks
+```
+attackTimer -= delta
+
+if (attackTimer <= 0) {
+    enemyAttack()
+    attackTimer = attackCooldown
+}
+```
+
+### Animation frames
+```
+frameTimer -= delta
+
+if (frameTimer <= 0) {
+    nextAnimationFrame()
+    frameTimer = frameDelay
+}
+```
+
+### Spawning enemies
+```
+spawnTimer -= delta
+
+if (spawnTimer <= 0) {
+    spawnEnemy()
+    spawnTimer = spawnInterval
+}
+```
