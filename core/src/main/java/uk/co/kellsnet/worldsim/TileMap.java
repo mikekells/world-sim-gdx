@@ -12,7 +12,6 @@ public class TileMap {
         width = 30;
         height = 30;
         tiles = new TileType[height][width];
-
         generateMap();
     }
 
@@ -64,6 +63,10 @@ public class TileMap {
 
     public void setTile(int x, int y, TileType tile) {
         tiles[y][x] = tile;
+    }
+
+    private boolean inBounds(int dx, int dy) {
+        return dx >= 0 && dx < width && dy >= 0 && dy < height;
     }
 
 }
