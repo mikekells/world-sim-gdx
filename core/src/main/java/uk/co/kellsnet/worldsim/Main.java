@@ -28,7 +28,10 @@ public class Main extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
 
-        state = new GameState();
+        TileMap tileMap = new TileMap(30, 30);
+        Position position = new Position(5, 5);
+
+        state = new GameState(tileMap, position);
 
         debug("[INIT] create() called");
         debug("[MAP] Map size = " + state.getTileMap().getWidth() + " x " + state.getTileMap().getHeight());
@@ -63,7 +66,7 @@ public class Main extends ApplicationAdapter {
         playerTexture = new Texture(playerPixmap);
         playerPixmap.dispose();
 
-        debug("[PLAYER] Starting position = (" + state.getPlayer().getX() + ", " + state.getPlayer().getY() + ")");
+        debug("[PLAYER] Starting position = (" + state.getPlayer().getPosition().getX() + ", " + state.getPlayer().getPosition().getY() + ")");
 
         updateCamera();
 
@@ -96,8 +99,8 @@ public class Main extends ApplicationAdapter {
     }
 
     private void updateCamera() {
-        float playerCenterX = state.getPlayer().getX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
-        float playerCenterY = state.getPlayer().getY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+        float playerCenterX = state.getPlayer().getPosition().getX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+        float playerCenterY = state.getPlayer().getPosition().getY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
 
         float worldWidth = state.getTileMap().getWidth() * TileMap.TILE_SIZE;
         float worldHeight = state.getTileMap().getHeight() * TileMap.TILE_SIZE;
@@ -131,7 +134,7 @@ public class Main extends ApplicationAdapter {
     }
 
     private void attemptMove(int dx, int dy) {
-        boolean moved = state.tryMovePlayer(dx, dy);
+        boolean moved = state.tryMovePlayer(state, dx, dy);
         if (moved) {
             updateCamera();
         }

@@ -5,9 +5,9 @@ public class GameState {
     private final TileMap tileMap;
     private final Player player;
 
-    public GameState() {
-        tileMap = new TileMap();
-        player = new Player(2, 1);
+    public GameState(TileMap tileMap, Position position) {
+        this.tileMap = tileMap;
+        this.player = new Player(position);
     }
 
     public TileMap getTileMap() {
@@ -18,13 +18,16 @@ public class GameState {
         return player;
     }
 
-    public boolean tryMovePlayer(int dx, int dy) {
-        int targetX = player.getX() + dx;
-        int targetY = player.getY() + dy;
+    public boolean tryMovePlayer(GameState state, int dx, int dy) {
+        TileMap tileMap = state.getTileMap();
+        Position p = state.getPlayer().getPosition();
+
+        int targetX = p.getX() + dx;
+        int targetY = p.getY() + dy;
 
         debug("[MOVE] Attempting move to (" + targetX + ", " + targetY + ")");
 
-        if (!inBounds(targetX, targetY)) {
+        if (!tileMap.inBounds(targetX, targetY)) {
             debug("[MOVE] Blocked: target out of bounds");
             return false;
         }
@@ -33,18 +36,14 @@ public class GameState {
         debug("[MOVE] Target tile is " + tile);
 
         if (tile.isWalkable()) {
-            player.move(dx, dy);
-            debug("[MOVE] Success: player now at (" + player.getX() + ", " + player.getY() + ")");
+            p.set(targetX, targetY);
+            debug("[MOVE] Success: player now at (" + p.getX() + ", " + p.getY() + ")");
             debug("[MOVE] Stood on tile type: " + tile);
             return true;
         } else {
             debug("[MOVE] Blocked: tile is not walkable");
             return false;
         }
-    }
-
-    private boolean inBounds(int dx, int dy) {
-        return dx >= 0 && dx < tileMap.getWidth() && dy >= 0 && dy < tileMap.getHeight();
     }
 
     private void debug(String message) {
