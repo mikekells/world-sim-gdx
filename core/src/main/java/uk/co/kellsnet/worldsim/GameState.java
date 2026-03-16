@@ -46,6 +46,10 @@ public class GameState {
         }
     }
 
+    public void update(float delta) {
+        // future game logic
+    }
+
     private void debug(String message) {
         if (Debug.ENABLED) {
             System.out.println(message);

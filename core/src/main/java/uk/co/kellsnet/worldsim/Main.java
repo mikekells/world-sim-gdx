@@ -78,7 +78,7 @@ public class Main extends ApplicationAdapter {
         float delta = Gdx.graphics.getDeltaTime();
 
         handleInput(delta);
-        update(delta);
+        state.update(delta);
 
         ScreenUtils.clear(0f, 0f, 0f, 1f);
 
@@ -139,10 +139,6 @@ public class Main extends ApplicationAdapter {
             updateCamera();
         }
         moveTimer = moveDelay;
-    }
-
-    private void update(float delta) {
-        // future game logic
     }
 
     private void debug(String message) {
