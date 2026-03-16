@@ -2,13 +2,16 @@ package uk.co.kellsnet.worldsim;
 
 public class Movement {
 
-    public boolean tryMovePlayer(int dx, int dy) {
-        int targetX = player.getX() + dx;
-        int targetY = player.getY() + dy;
+    public static boolean tryMovePlayer(GameState state, int dx, int dy) {
+        TileMap tileMap = state.getTileMap();
+        Position p = state.getPlayer().getPosition();
+
+        int targetX = p.getX() + dx;
+        int targetY = p.getY() + dy;
 
         debug("[MOVE] Attempting move to (" + targetX + ", " + targetY + ")");
 
-        if (!inBounds(targetX, targetY)) {
+        if (tileMap.inBounds(targetX, targetY)) {
             debug("[MOVE] Blocked: target out of bounds");
             return false;
         }
@@ -17,13 +20,19 @@ public class Movement {
         debug("[MOVE] Target tile is " + tile);
 
         if (tile.isWalkable()) {
-            player.move(dx, dy);
-            debug("[MOVE] Success: player now at (" + player.getX() + ", " + player.getY() + ")");
+            p.set(dx, dy);
+            debug("[MOVE] Success: player now at (" + p.getX() + ", " + p.getY() + ")");
             debug("[MOVE] Stood on tile type: " + tile);
             return true;
         } else {
             debug("[MOVE] Blocked: tile is not walkable");
             return false;
+        }
+    }
+
+    private static void debug(String message) {
+        if (Debug.ENABLED) {
+            System.out.println(message);
         }
     }
 

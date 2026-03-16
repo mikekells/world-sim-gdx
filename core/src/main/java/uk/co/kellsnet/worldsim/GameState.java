@@ -5,9 +5,9 @@ public class GameState {
     private final TileMap tileMap;
     private final Player player;
 
-    public GameState() {
-        tileMap = new TileMap();
-        player = new Player(new Position(2, 1));
+    public GameState(TileMap tileMap, Position position) {
+        this.tileMap = tileMap;
+        this.player = new Player(position);
     }
 
     public TileMap getTileMap() {

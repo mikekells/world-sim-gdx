@@ -8,10 +8,10 @@ public class TileMap {
     private final int width;
     private final int height;
 
-    public TileMap() {
-        width = 30;
-        height = 30;
-        tiles = new TileType[height][width];
+    public TileMap(int width, int height) {
+        this.width = width;
+        this.height = height;
+        this.tiles = new TileType[height][width];
         generateMap();
     }
 
@@ -65,7 +65,7 @@ public class TileMap {
         tiles[y][x] = tile;
     }
 
-    private boolean inBounds(int dx, int dy) {
+    public boolean inBounds(int dx, int dy) {
         return dx >= 0 && dx < width && dy >= 0 && dy < height;
     }
 

@@ -59,6 +59,6 @@ public class TileRenderer {
             }
         }
 
-        batch.draw(playerTexture, player.getX() * TileMap.TILE_SIZE, player.getY() * TileMap.TILE_SIZE);
+        batch.draw(playerTexture, player.getPosition().getX() * TileMap.TILE_SIZE, player.getPosition().getY() * TileMap.TILE_SIZE);
     }
 }
