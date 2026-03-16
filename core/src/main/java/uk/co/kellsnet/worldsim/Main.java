@@ -29,7 +29,7 @@ public class Main extends ApplicationAdapter {
     public void create() {
         batch = new SpriteBatch();
 
-        TileMap tileMap = new TileMap(10, 10);
+        TileMap tileMap = new TileMap(30, 30);
         Position position = new Position(5, 5);
 
         state = new GameState(tileMap, position);

@@ -11,7 +11,7 @@ public class Movement {
 
         debug("[MOVE] Attempting move to (" + targetX + ", " + targetY + ")");
 
-        if (tileMap.inBounds(targetX, targetY)) {
+        if (!tileMap.inBounds(targetX, targetY)) {
             debug("[MOVE] Blocked: target out of bounds");
             return false;
         }
@@ -20,7 +20,7 @@ public class Movement {
         debug("[MOVE] Target tile is " + tile);
 
         if (tile.isWalkable()) {
-            p.set(dx, dy);
+            p.set(targetX, targetY);
             debug("[MOVE] Success: player now at (" + p.getX() + ", " + p.getY() + ")");
             debug("[MOVE] Stood on tile type: " + tile);
             return true;
