@@ -24,7 +24,6 @@ public class Main extends ApplicationAdapter {
     private float moveTimer = 0f;
     private final float moveDelay = 0.18f;
 
-
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -135,7 +134,7 @@ public class Main extends ApplicationAdapter {
     }
 
     private void attemptMove(int dx, int dy) {
-        boolean moved = Movement.tryMovePlayer(state, dx, dy);
+        boolean moved = state.tryMovePlayer(state, dx, dy);
         if (moved) {
             updateCamera();
         }
