@@ -85,7 +85,7 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        tileRenderer.render(batch, state.getTileMap(), state.getPlayer(), camera);
+        tileRenderer.render(batch, state.getTileMap(), state.getPlayer(), state.getEntities(), camera);
         batch.end();
     }
 
