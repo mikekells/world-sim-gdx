@@ -2,7 +2,6 @@ package uk.co.kellsnet.worldsim;
 
 import com.badlogic.gdx.math.MathUtils;
 
-import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,7 @@ public class GameState {
         this.tileMap = tileMap;
         this.player = new Player(position);
         entities.add(new NPC(new Position(10, 10)));
+        entities.add(new NPC(new Position(15, 15)));
     }
 
     public TileMap getTileMap() {
@@ -29,9 +29,8 @@ public class GameState {
         return player;
     }
 
-    public boolean tryMovePlayer(GameState state, int dx, int dy) {
-        TileMap tileMap = state.getTileMap();
-        Position p = state.getPlayer().getPosition();
+    public boolean tryMovePlayer(int dx, int dy) {
+        Position p = getPlayer().getPosition();
 
         int targetX = p.getX() + dx;
         int targetY = p.getY() + dy;
@@ -70,6 +69,22 @@ public class GameState {
         }
     }
 
+    private void moveNpcRandomly(NPC npc){
+            int direction = MathUtils.random(3);
+
+            int dx = 0;
+            int dy = 0;
+
+            switch (direction) {
+                case 0 -> dx = 1;
+                case 1 -> dx = -1;
+                case 2 -> dy = 1;
+                case 3 -> dy = -1;
+            }
+
+            tryMoveNpc(npc, dx, dy);
+    }
+
     private void tryMoveNpc(NPC npc, int dx, int dy) {
         Position p = npc.getPosition();
 
@@ -85,22 +100,6 @@ public class GameState {
         if (tile.isWalkable()) {
             p.set(targetX, targetY);
         }
-    }
-
-    private void moveNpcRandomly(NPC npc){
-            int direction = MathUtils.random(3);
-
-            int dx = 0;
-            int dy = 0;
-
-            switch (direction) {
-                case 0 -> dx = 1;
-                case 1 -> dx = -1;
-                case 2 -> dy = 1;
-                case 3 -> dy = -1;
-            }
-
-            tryMoveNpc(npc, dx, dy);
     }
 
     public List<Entity> getEntities() {

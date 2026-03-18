@@ -134,7 +134,7 @@ public class Main extends ApplicationAdapter {
     }
 
     private void attemptMove(int dx, int dy) {
-        boolean moved = state.tryMovePlayer(state, dx, dy);
+        boolean moved = state.tryMovePlayer(dx, dy);
         if (moved) {
             updateCamera();
         }
