@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
+import java.util.List;
+
 public class TileRenderer {
     private final Texture floorTexture;
     private final Texture wallTexture;
@@ -18,7 +20,7 @@ public class TileRenderer {
         this.playerTexture = playerTexture;
     }
 
-    public void render(SpriteBatch batch, TileMap tileMap, Player player, OrthographicCamera camera) {
+    public void render(SpriteBatch batch, TileMap tileMap, Player player, List<Entity> entities, OrthographicCamera camera) {
         float leftWorld = camera.position.x - camera.viewportWidth / 2f;
         float rightWorld = camera.position.x + camera.viewportWidth / 2f;
         float bottomWorld = camera.position.y - camera.viewportHeight / 2f;
@@ -60,5 +62,9 @@ public class TileRenderer {
         }
 
         batch.draw(playerTexture, player.getPosition().getX() * TileMap.TILE_SIZE, player.getPosition().getY() * TileMap.TILE_SIZE);
+
+        for (Entity entity : entities) {
+            batch.draw(playerTexture, entity.getPosition().getX() * TileMap.TILE_SIZE, entity.getPosition().getY() * TileMap.TILE_SIZE);
+        }
     }
 }
