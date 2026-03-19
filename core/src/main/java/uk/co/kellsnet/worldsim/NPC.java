@@ -6,6 +6,7 @@ public class NPC extends Entity {
 
     private float moveTimer = 0f;
     private final float moveDelay = 0.5f;
+    private boolean playerNearby = false;
 
     public NPC(Position position) {
         super(position);
@@ -22,6 +23,14 @@ public class NPC extends Entity {
 
     public float getMoveDelay() {
         return moveDelay;
+    }
+
+    public boolean isPlayerNearby() {
+        return playerNearby;
+    }
+
+    public void setPlayerNearby(boolean playerNearby) {
+        this.playerNearby = playerNearby;
     }
 
 }

@@ -61,7 +61,9 @@ public class GameState {
                 timer -= delta;
 
                 if (timer <= 0f) {
-                    moveNpcRandomly(npc);
+                    if (!isNearPlayer(npc)) {
+                        moveNpcRandomly(npc);
+                    }
                     timer = npc.getMoveDelay();
                 }
 
@@ -112,9 +114,13 @@ public class GameState {
     private void checkNpcProximity() {
         for (Entity entity : entities) {
             if (entity instanceof NPC npc) {
-                if (isNearPlayer(npc)) {
-                    debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") is near player at (" + player.getPosition().getX() + ", " + player.getPosition().getY() + ")");
+                boolean isNear = isNearPlayer(npc);
+
+                if (isNear && !npc.isPlayerNearby()) {
+                    debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") spotted player!");
                 }
+
+                npc.setPlayerNearby(isNear);
             }
         }
     }
