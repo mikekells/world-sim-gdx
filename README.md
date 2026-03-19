@@ -102,7 +102,7 @@ Understanding how to convert between these systems is a key part of building a t
 - [x] Input repeat (hold key to move)
 - [ ] Smooth movement
 - [x] Entity system
-- [ ] Basic NPC / enemy entities
+- [x] Basic NPC / enemy entities
 
 ## Phase 6 – Gameplay Systems
 
