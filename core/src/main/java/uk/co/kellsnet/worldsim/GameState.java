@@ -78,6 +78,7 @@ public class GameState {
         }
 
         checkNpcProximity();
+        checkNpcCollision();
     }
 
     private void moveNpcRandomly(NPC npc){
@@ -161,6 +162,29 @@ public class GameState {
         }
 
         tryMoveNpc(npc, moveX, moveY);
+    }
+
+    private void checkNpcCollision() {
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                boolean touching = isTouchingPlayer(npc);
+                if (touching && !npc.isTouchingPlayer()) {
+                    debug("[NPC] NPC touched the player!");
+                }
+
+                npc.setTouchingPlayer(touching);
+            }
+        }
+    }
+
+    private boolean isTouchingPlayer(NPC npc) {
+        int playerX = player.getPosition().getX();
+        int playerY = player.getPosition().getY();
+
+        int npcX = npc.getPosition().getX();
+        int npcY = npc.getPosition().getY();
+
+        return npcX == playerX && npcY == playerY;
     }
 
     private void debug(String message) {
