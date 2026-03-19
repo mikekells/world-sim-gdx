@@ -11,9 +11,6 @@ public class GameState {
     private final Player player;
     private final List<Entity> entities = new ArrayList<>();
 
-    private float npcMoveTimer = 0f;
-    private final float npcMoveDelay = 0.5f;
-
     public GameState(TileMap tileMap, Position position) {
         this.tileMap = tileMap;
         this.player = new Player(position);
@@ -57,15 +54,19 @@ public class GameState {
     }
 
     public void update(float delta) {
-        npcMoveTimer -= delta;
 
-        if (npcMoveTimer <= 0f) {
-            for (Entity entity : entities) {
-                if (entity instanceof NPC npc) {
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                float timer = npc.getMoveTimer();
+                timer -= delta;
+
+                if (timer <= 0f) {
                     moveNpcRandomly(npc);
+                    timer = npc.getMoveDelay();
                 }
+
+                npc.setMoveTimer(timer);
             }
-            npcMoveTimer = npcMoveDelay;
         }
     }
 
