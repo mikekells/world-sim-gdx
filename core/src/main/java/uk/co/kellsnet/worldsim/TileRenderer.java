@@ -12,12 +12,14 @@ public class TileRenderer {
     private final Texture wallTexture;
     private final Texture pillarTexture;
     private final Texture playerTexture;
+    private final Texture npcTexture;
 
-    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture floorTexture) {
+    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture npcTexture, Texture floorTexture) {
         this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.pillarTexture = pillarTexture;
         this.playerTexture = playerTexture;
+        this.npcTexture = npcTexture;
     }
 
     public void render(SpriteBatch batch, TileMap tileMap, Player player, List<Entity> entities, OrthographicCamera camera) {
@@ -64,7 +66,7 @@ public class TileRenderer {
         batch.draw(playerTexture, player.getPosition().getX() * TileMap.TILE_SIZE, player.getPosition().getY() * TileMap.TILE_SIZE);
 
         for (Entity entity : entities) {
-            batch.draw(playerTexture, entity.getPosition().getX() * TileMap.TILE_SIZE, entity.getPosition().getY() * TileMap.TILE_SIZE);
+            batch.draw(npcTexture, entity.getPosition().getX() * TileMap.TILE_SIZE, entity.getPosition().getY() * TileMap.TILE_SIZE);
         }
     }
 }

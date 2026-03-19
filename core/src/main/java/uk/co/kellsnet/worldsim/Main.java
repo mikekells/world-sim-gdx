@@ -19,6 +19,7 @@ public class Main extends ApplicationAdapter {
     private Texture wallTexture;
     private Texture pillarTexture;
     private Texture playerTexture;
+    private Texture npcTexture;
     private TileRenderer tileRenderer;
     private OrthographicCamera camera;
     private float moveTimer = 0f;
@@ -66,11 +67,17 @@ public class Main extends ApplicationAdapter {
         playerTexture = new Texture(playerPixmap);
         playerPixmap.dispose();
 
+        Pixmap npcPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
+        npcPixmap.setColor(1, 1, 0, 1);
+        npcPixmap.fill();
+        npcTexture = new Texture(npcPixmap);
+        npcPixmap.dispose();
+
         debug("[PLAYER] Starting position = (" + state.getPlayer().getPosition().getX() + ", " + state.getPlayer().getPosition().getY() + ")");
 
         updateCamera();
 
-        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, floorTexture);
+        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture);
     }
 
     @Override
@@ -96,6 +103,7 @@ public class Main extends ApplicationAdapter {
         wallTexture.dispose();
         pillarTexture.dispose();
         playerTexture.dispose();
+        npcTexture.dispose();
     }
 
     private void updateCamera() {
