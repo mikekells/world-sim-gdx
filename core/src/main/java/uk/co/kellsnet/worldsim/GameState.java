@@ -12,6 +12,8 @@ public class GameState {
     private final List<Entity> entities = new ArrayList<>();
 
     private final Position playerSpawn;
+    private int timesCaught = 0;
+    private int successfulMoves = 0;
 
     public GameState(TileMap tileMap, Position position) {
         this.tileMap = tileMap;
@@ -47,6 +49,7 @@ public class GameState {
 
         if (tile.isWalkable()) {
             p.set(targetX, targetY);
+            recordSuccessfulMoves();
             debug("[MOVE] Success: player now at (" + p.getX() + ", " + p.getY() + ")");
             debug("[MOVE] Stood on tile type: " + tile);
             return true;
@@ -84,6 +87,7 @@ public class GameState {
         checkNpcProximity();
 
         if (checkNpcCollision()) {
+            recordPlayerCaught();
             resetPlayerToSpawn();
             playerReset = true;
         }
@@ -184,6 +188,7 @@ public class GameState {
                 if (touching && !npc.isTouchingPlayer()) {
                     debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") touched the player!");
                     playerTouched = true;
+                    successfulMoves = 0;
                 }
 
                 npc.setTouchingPlayer(touching);
@@ -203,15 +208,32 @@ public class GameState {
         return npcX == playerX && npcY == playerY;
     }
 
-    private void debug(String message) {
-        if (Debug.ENABLED) {
-            System.out.println(message);
-        }
-    }
-
     public void resetPlayerToSpawn() {
         player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
         debug("[PLAYER] Reset to spawn at (" + playerSpawn.getX() + ", " + playerSpawn.getY() + ")");
     }
 
+    public int getTimesCaught() {
+        return timesCaught;
+    }
+
+    private void recordPlayerCaught() {
+        timesCaught++;
+        debug("[GAME] Player caught! Total catches = " + timesCaught);
+    }
+
+    public int getSuccessfulMoves() {
+        return successfulMoves;
+    }
+
+    private void recordSuccessfulMoves() {
+        successfulMoves++;
+        debug("[MOVE] Successful moves = " + getSuccessfulMoves());
+    }
+
+    private void debug(String message) {
+        if (Debug.ENABLED) {
+            System.out.println(message);
+        }
+    }
 }
