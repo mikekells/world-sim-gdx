@@ -11,8 +11,11 @@ public class GameState {
     private final Player player;
     private final List<Entity> entities = new ArrayList<>();
 
+    private final Position playerSpawn;
+
     public GameState(TileMap tileMap, Position position) {
         this.tileMap = tileMap;
+        this.playerSpawn = new Position(position.getX(), position.getY());
         this.player = new Player(position);
         entities.add(new NPC(new Position(10, 10)));
         entities.add(new NPC(new Position(16, 16)));
@@ -53,7 +56,8 @@ public class GameState {
         }
     }
 
-    public void update(float delta) {
+    public boolean update(float delta) {
+        boolean playerReset = false;
 
         for (Entity entity : entities) {
             if (entity instanceof NPC npc) {
@@ -78,7 +82,13 @@ public class GameState {
         }
 
         checkNpcProximity();
-        checkNpcCollision();
+
+        if (checkNpcCollision()) {
+            resetPlayerToSpawn();
+            playerReset = true;
+        }
+
+        return playerReset;
     }
 
     private void moveNpcRandomly(NPC npc){
@@ -142,7 +152,7 @@ public class GameState {
         int dx = Math.abs(npcX - playerX);
         int dy = Math.abs(npcY - playerY);
 
-        return dx <= 1 && dy <= 1;
+        return dx <= 5 && dy <= 5;
     }
 
     private void moveNpcTowardPlayer(NPC npc) {
@@ -164,17 +174,23 @@ public class GameState {
         tryMoveNpc(npc, moveX, moveY);
     }
 
-    private void checkNpcCollision() {
+    private boolean checkNpcCollision() {
+        boolean playerTouched = false;
+
         for (Entity entity : entities) {
             if (entity instanceof NPC npc) {
                 boolean touching = isTouchingPlayer(npc);
+
                 if (touching && !npc.isTouchingPlayer()) {
-                    debug("[NPC] NPC touched the player!");
+                    debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") touched the player!");
+                    playerTouched = true;
                 }
 
                 npc.setTouchingPlayer(touching);
             }
         }
+
+        return playerTouched;
     }
 
     private boolean isTouchingPlayer(NPC npc) {
@@ -191,6 +207,11 @@ public class GameState {
         if (Debug.ENABLED) {
             System.out.println(message);
         }
+    }
+
+    public void resetPlayerToSpawn() {
+        player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
+        debug("[PLAYER] Reset to spawn at (" + playerSpawn.getX() + ", " + playerSpawn.getY() + ")");
     }
 
 }

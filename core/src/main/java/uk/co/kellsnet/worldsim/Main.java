@@ -85,7 +85,11 @@ public class Main extends ApplicationAdapter {
         float delta = Gdx.graphics.getDeltaTime();
 
         handleInput(delta);
-        state.update(delta);
+        boolean playerReset = state.update(delta);
+
+        if (playerReset) {
+            updateCamera();
+        }
 
         ScreenUtils.clear(0f, 0f, 0f, 1f);
 
