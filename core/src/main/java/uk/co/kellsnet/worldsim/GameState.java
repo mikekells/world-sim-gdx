@@ -68,6 +68,8 @@ public class GameState {
                 npc.setMoveTimer(timer);
             }
         }
+
+        checkNpcProximity();
     }
 
     private void moveNpcRandomly(NPC npc){
@@ -105,6 +107,29 @@ public class GameState {
 
     public List<Entity> getEntities() {
         return entities;
+    }
+
+    private void checkNpcProximity() {
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                if (isNearPlayer(npc)) {
+                    debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") is near player at (" + player.getPosition().getX() + ", " + player.getPosition().getY() + ")");
+                }
+            }
+        }
+    }
+
+    private boolean isNearPlayer(NPC npc) {
+        int playerX = player.getPosition().getX();
+        int playerY = player.getPosition().getY();
+
+        int npcX = npc.getPosition().getX();
+        int npcY = npc.getPosition().getY();
+
+        int dx = Math.abs(npcX - playerX);
+        int dy = Math.abs(npcY - playerY);
+
+        return dx <= 1 && dy <= 1;
     }
 
     private void debug(String message) {
