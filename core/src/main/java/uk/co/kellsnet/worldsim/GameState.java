@@ -62,7 +62,11 @@ public class GameState {
 
                 if (timer <= 0f) {
                     if (isNearPlayer(npc)) {
-                        moveNpcTowardPlayer(npc);
+                        if (MathUtils.randomBoolean(0.8f)) {
+                            moveNpcTowardPlayer(npc);
+                        } else {
+                            moveNpcRandomly(npc);
+                        }
                     } else {
                         moveNpcRandomly(npc);
                     }
