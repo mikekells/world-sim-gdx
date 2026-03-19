@@ -61,7 +61,9 @@ public class GameState {
                 timer -= delta;
 
                 if (timer <= 0f) {
-                    if (!isNearPlayer(npc)) {
+                    if (isNearPlayer(npc)) {
+                        moveNpcTowardPlayer(npc);
+                    } else {
                         moveNpcRandomly(npc);
                     }
                     timer = npc.getMoveDelay();
@@ -136,6 +138,25 @@ public class GameState {
         int dy = Math.abs(npcY - playerY);
 
         return dx <= 1 && dy <= 1;
+    }
+
+    private void moveNpcTowardPlayer(NPC npc) {
+        Position npcPos = npc.getPosition();
+        Position playerPos = player.getPosition();
+
+        int dx = playerPos.getX() - npcPos.getX();
+        int dy = playerPos.getY() - npcPos.getY();
+
+        int moveX = 0;
+        int moveY = 0;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            moveX = Integer.signum(dx);
+        } else {
+            moveY = Integer.signum(dy);
+        }
+
+        tryMoveNpc(npc, moveX, moveY);
     }
 
     private void debug(String message) {
