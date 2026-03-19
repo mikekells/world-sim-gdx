@@ -98,10 +98,10 @@ Understanding how to convert between these systems is a key part of building a t
 
 ## Phase 5 – Engine Structure (In Progress)
 
-- [ ] Rendering layers
-- [ ] Input repeat (hold key to move)
+- [x] Rendering layers
+- [x] Input repeat (hold key to move)
 - [ ] Smooth movement
-- [ ] Entity system
+- [x] Entity system
 - [ ] Basic NPC / enemy entities
 
 ## Phase 6 – Gameplay Systems

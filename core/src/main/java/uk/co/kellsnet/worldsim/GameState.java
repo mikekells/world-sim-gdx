@@ -15,7 +15,7 @@ public class GameState {
         this.tileMap = tileMap;
         this.player = new Player(position);
         entities.add(new NPC(new Position(10, 10)));
-        entities.add(new NPC(new Position(15, 15)));
+        entities.add(new NPC(new Position(16, 16)));
     }
 
     public TileMap getTileMap() {
