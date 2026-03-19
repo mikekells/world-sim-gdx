@@ -2,7 +2,6 @@ package uk.co.kellsnet.worldsim;
 
 import com.badlogic.gdx.math.MathUtils;
 
-import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +11,16 @@ public class GameState {
     private final Player player;
     private final List<Entity> entities = new ArrayList<>();
 
-    private float npcMoveTimer = 0f;
-    private final float npcMoveDelay = 0.5f;
+    private final Position playerSpawn;
+    private int timesCaught = 0;
+    private int successfulMoves = 0;
 
     public GameState(TileMap tileMap, Position position) {
         this.tileMap = tileMap;
+        this.playerSpawn = new Position(position.getX(), position.getY());
         this.player = new Player(position);
         entities.add(new NPC(new Position(10, 10)));
+        entities.add(new NPC(new Position(16, 16)));
     }
 
     public TileMap getTileMap() {
@@ -29,9 +31,8 @@ public class GameState {
         return player;
     }
 
-    public boolean tryMovePlayer(GameState state, int dx, int dy) {
-        TileMap tileMap = state.getTileMap();
-        Position p = state.getPlayer().getPosition();
+    public boolean tryMovePlayer(int dx, int dy) {
+        Position p = getPlayer().getPosition();
 
         int targetX = p.getX() + dx;
         int targetY = p.getY() + dy;
@@ -48,6 +49,7 @@ public class GameState {
 
         if (tile.isWalkable()) {
             p.set(targetX, targetY);
+            recordSuccessfulMoves();
             debug("[MOVE] Success: player now at (" + p.getX() + ", " + p.getY() + ")");
             debug("[MOVE] Stood on tile type: " + tile);
             return true;
@@ -57,17 +59,56 @@ public class GameState {
         }
     }
 
-    public void update(float delta) {
-        npcMoveTimer -= delta;
+    public boolean update(float delta) {
+        boolean playerReset = false;
 
-        if (npcMoveTimer <= 0f) {
-            for (Entity entity : entities) {
-                if (entity instanceof NPC npc) {
-                    moveNpcRandomly(npc);
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                float timer = npc.getMoveTimer();
+                timer -= delta;
+
+                if (timer <= 0f) {
+                    if (isNearPlayer(npc)) {
+                        if (MathUtils.randomBoolean(0.8f)) {
+                            moveNpcTowardPlayer(npc);
+                        } else {
+                            moveNpcRandomly(npc);
+                        }
+                    } else {
+                        moveNpcRandomly(npc);
+                    }
+                    timer = npc.getMoveDelay();
                 }
+
+                npc.setMoveTimer(timer);
             }
-            npcMoveTimer = npcMoveDelay;
         }
+
+        checkNpcProximity();
+
+        if (checkNpcCollision()) {
+            recordPlayerCaught();
+            resetPlayerToSpawn();
+            playerReset = true;
+        }
+
+        return playerReset;
+    }
+
+    private void moveNpcRandomly(NPC npc){
+            int direction = MathUtils.random(3);
+
+            int dx = 0;
+            int dy = 0;
+
+            switch (direction) {
+                case 0 -> dx = 1;
+                case 1 -> dx = -1;
+                case 2 -> dy = 1;
+                case 3 -> dy = -1;
+            }
+
+            tryMoveNpc(npc, dx, dy);
     }
 
     private void tryMoveNpc(NPC npc, int dx, int dy) {
@@ -87,24 +128,107 @@ public class GameState {
         }
     }
 
-    private void moveNpcRandomly(NPC npc){
-            int direction = MathUtils.random(3);
-
-            int dx = 0;
-            int dy = 0;
-
-            switch (direction) {
-                case 0 -> dx = 1;
-                case 1 -> dx = -1;
-                case 2 -> dy = 1;
-                case 3 -> dy = -1;
-            }
-
-            tryMoveNpc(npc, dx, dy);
-    }
-
     public List<Entity> getEntities() {
         return entities;
+    }
+
+    private void checkNpcProximity() {
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                boolean isNear = isNearPlayer(npc);
+
+                if (isNear && !npc.isPlayerNearby()) {
+                    debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") spotted player!");
+                }
+
+                npc.setPlayerNearby(isNear);
+            }
+        }
+    }
+
+    private boolean isNearPlayer(NPC npc) {
+        int playerX = player.getPosition().getX();
+        int playerY = player.getPosition().getY();
+
+        int npcX = npc.getPosition().getX();
+        int npcY = npc.getPosition().getY();
+
+        int dx = Math.abs(npcX - playerX);
+        int dy = Math.abs(npcY - playerY);
+
+        return dx <= 5 && dy <= 5;
+    }
+
+    private void moveNpcTowardPlayer(NPC npc) {
+        Position npcPos = npc.getPosition();
+        Position playerPos = player.getPosition();
+
+        int dx = playerPos.getX() - npcPos.getX();
+        int dy = playerPos.getY() - npcPos.getY();
+
+        int moveX = 0;
+        int moveY = 0;
+
+        if (Math.abs(dx) > Math.abs(dy)) {
+            moveX = Integer.signum(dx);
+        } else {
+            moveY = Integer.signum(dy);
+        }
+
+        tryMoveNpc(npc, moveX, moveY);
+    }
+
+    private boolean checkNpcCollision() {
+        boolean playerTouched = false;
+
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                boolean touching = isTouchingPlayer(npc);
+
+                if (touching && !npc.isTouchingPlayer()) {
+                    debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") touched the player!");
+                    playerTouched = true;
+                    successfulMoves = 0;
+                }
+
+                npc.setTouchingPlayer(touching);
+            }
+        }
+
+        return playerTouched;
+    }
+
+    private boolean isTouchingPlayer(NPC npc) {
+        int playerX = player.getPosition().getX();
+        int playerY = player.getPosition().getY();
+
+        int npcX = npc.getPosition().getX();
+        int npcY = npc.getPosition().getY();
+
+        return npcX == playerX && npcY == playerY;
+    }
+
+    public void resetPlayerToSpawn() {
+        player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
+        debug("[PLAYER] Reset to spawn at (" + playerSpawn.getX() + ", " + playerSpawn.getY() + ")");
+    }
+
+    public int getTimesCaught() {
+        return timesCaught;
+    }
+
+    private void recordPlayerCaught() {
+        timesCaught++;
+        debug("[GAME] Player caught! Total catches = " + timesCaught);
+    }
+
+    public int getSuccessfulMoves() {
+        return successfulMoves;
+    }
+
+    private void recordSuccessfulMoves() {
+        successfulMoves++;
+        debug("[MOVE] Successful moves = " + getSuccessfulMoves());
     }
 
     private void debug(String message) {
@@ -112,5 +236,4 @@ public class GameState {
             System.out.println(message);
         }
     }
-
 }
