@@ -84,7 +84,10 @@ public class Main extends ApplicationAdapter {
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
 
-        handleInput(delta);
+        if (!state.isGameOver()) {
+            handleInput(delta);
+        }
+
         boolean playerReset = state.update(delta);
 
         if (playerReset) {
