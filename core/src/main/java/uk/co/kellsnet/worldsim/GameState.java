@@ -195,7 +195,6 @@ public class GameState {
                 if (touching && !npc.isTouchingPlayer()) {
                     debug("[NPC] NPC at (" + npc.getPosition().getX() + ", " + npc.getPosition().getY() + ") touched the player!");
                     playerTouched = true;
-                    successfulMoves = 0;
                 }
 
                 npc.setTouchingPlayer(touching);
@@ -229,6 +228,7 @@ public class GameState {
     }
 
     private void handlePlayerCaught() {
+        successfulMoves = 0;
         recordPlayerCaught();
         player.takeDamage(1);
 
