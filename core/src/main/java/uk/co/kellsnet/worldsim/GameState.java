@@ -14,6 +14,7 @@ public class GameState {
     private final Position playerSpawn;
     private int timesCaught = 0;
     private int successfulMoves = 0;
+    private boolean gameOver = false;
 
     public GameState(TileMap tileMap, Position position) {
         this.tileMap = tileMap;
@@ -60,6 +61,10 @@ public class GameState {
     }
 
     public boolean update(float delta) {
+        if (gameOver) {
+            return false;
+        }
+
         boolean playerReset = false;
 
         for (Entity entity : entities) {
@@ -87,9 +92,11 @@ public class GameState {
         checkNpcProximity();
 
         if (checkNpcCollision()) {
-            recordPlayerCaught();
-            resetPlayerToSpawn();
-            playerReset = true;
+            handlePlayerCaught();
+
+            if(!gameOver) {
+                playerReset =true;
+            }
         }
 
         return playerReset;
@@ -215,6 +222,24 @@ public class GameState {
 
     public int getTimesCaught() {
         return timesCaught;
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    private void handlePlayerCaught() {
+        recordPlayerCaught();
+        player.takeDamage(1);
+
+        debug("[PLAYER] Health = " + player.getHealth());
+
+        if (player.getHealth() <= 0) {
+            gameOver = true;
+            debug("[GAME] Game Over!");
+        } else {
+            resetPlayerToSpawn();
+        }
     }
 
     private void recordPlayerCaught() {
