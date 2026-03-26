@@ -84,7 +84,12 @@ public class Main extends ApplicationAdapter {
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
 
-        if (!state.isGameOver()) {
+        if (state.isGameOver()) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+                state.resetGame();
+                updateCamera();
+            }
+        } else {
             handleInput(delta);
         }
 

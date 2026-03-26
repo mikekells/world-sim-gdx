@@ -256,6 +256,23 @@ public class GameState {
         debug("[MOVE] Successful moves = " + getSuccessfulMoves());
     }
 
+    public void resetGame() {
+        player.resetHealth(3);
+        player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
+
+        timesCaught = 0;
+        successfulMoves = 0;
+        gameOver = false;
+
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                npc.resetToSpawn();
+            }
+        }
+
+        debug("[GAME] Restarted");
+    }
+
     private void debug(String message) {
         if (Debug.ENABLED) {
             System.out.println(message);
