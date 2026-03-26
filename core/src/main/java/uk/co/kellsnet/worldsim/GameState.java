@@ -236,7 +236,7 @@ public class GameState {
 
         if (player.getHealth() <= 0) {
             gameOver = true;
-            debug("[GAME] Game Over!");
+            debug("[GAME] Game Over! | 'R' to restart.");
         } else {
             resetPlayerToSpawn();
         }
@@ -271,6 +271,8 @@ public class GameState {
         }
 
         debug("[GAME] Restarted");
+        debug("[PLAYER] Health reset to " + player.getHealth());
+        debug("[PLAYER] Reset to spawn at (" + player.getPosition().getX() + ", " + player.getPosition().getY() + ")");
     }
 
     private void debug(String message) {
