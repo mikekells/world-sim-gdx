@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class NPC extends Entity {
 
+    private final Position spawnPosition;
     private float moveTimer = 0f;
     private final float moveDelay = 0.5f;
     private boolean playerNearby = false;
@@ -11,7 +12,12 @@ public class NPC extends Entity {
 
     public NPC(Position position) {
         super(position);
+        this.spawnPosition = new Position(position.getX(), position.getY());
         this.moveTimer = MathUtils.random(0f, 0.5f);
+    }
+
+    public Position getSpawnPosition() {
+        return spawnPosition;
     }
 
     public float getMoveTimer() {
@@ -42,4 +48,10 @@ public class NPC extends Entity {
         this.touchingPlayer = touchingPlayer;
     }
 
+    public void resetToSpawn() {
+        getPosition().set(spawnPosition.getX(), spawnPosition.getY());
+        moveTimer = MathUtils.random(0f, 0.5f);
+        playerNearby = false;
+        touchingPlayer = false;
+    }
 }

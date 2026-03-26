@@ -236,7 +236,7 @@ public class GameState {
 
         if (player.getHealth() <= 0) {
             gameOver = true;
-            debug("[GAME] Game Over!");
+            debug("[GAME] Game Over! | 'R' to restart.");
         } else {
             resetPlayerToSpawn();
         }
@@ -254,6 +254,25 @@ public class GameState {
     private void recordSuccessfulMoves() {
         successfulMoves++;
         debug("[MOVE] Successful moves = " + getSuccessfulMoves());
+    }
+
+    public void resetGame() {
+        player.resetHealth(3);
+        player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
+
+        timesCaught = 0;
+        successfulMoves = 0;
+        gameOver = false;
+
+        for (Entity entity : entities) {
+            if (entity instanceof NPC npc) {
+                npc.resetToSpawn();
+            }
+        }
+
+        debug("[GAME] Restarted");
+        debug("[PLAYER] Health reset to " + player.getHealth());
+        debug("[PLAYER] Reset to spawn at (" + player.getPosition().getX() + ", " + player.getPosition().getY() + ")");
     }
 
     private void debug(String message) {
