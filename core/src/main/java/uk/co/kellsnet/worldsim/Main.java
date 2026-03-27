@@ -6,8 +6,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -22,6 +24,8 @@ public class Main extends ApplicationAdapter {
     private Texture npcTexture;
     private TileRenderer tileRenderer;
     private OrthographicCamera camera;
+    private BitmapFont font;
+    private Matrix4 uiMatrix;
     private float moveTimer = 0f;
     private final float moveDelay = 0.18f;
 
@@ -31,6 +35,8 @@ public class Main extends ApplicationAdapter {
 
         TileMap tileMap = new TileMap(30, 30);
         Position position = new Position(5, 5);
+        font = new BitmapFont();
+        uiMatrix = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         state = new GameState(tileMap, position);
 
@@ -106,6 +112,8 @@ public class Main extends ApplicationAdapter {
         batch.begin();
         tileRenderer.render(batch, state.getTileMap(), state.getPlayer(), state.getEntities(), camera);
         batch.end();
+
+        renderUi();
     }
 
     @Override
@@ -116,6 +124,7 @@ public class Main extends ApplicationAdapter {
         pillarTexture.dispose();
         playerTexture.dispose();
         npcTexture.dispose();
+        font.dispose();
     }
 
     private void updateCamera() {
@@ -159,6 +168,23 @@ public class Main extends ApplicationAdapter {
             updateCamera();
         }
         moveTimer = moveDelay;
+    }
+
+    private void renderUi() {
+        batch.setProjectionMatrix(uiMatrix);
+        batch.begin();
+
+        font.draw(batch, "Health: " + state.getPlayer().getHealth(), 20, Gdx.graphics.getHeight() - 20);
+        font.draw(batch, "Caught: " + state.getTimesCaught(), 20, Gdx.graphics.getHeight() - 50);
+        font.draw(batch, "Moves: " + state.getSuccessfulMoves(), 20, Gdx.graphics.getHeight() - 80);
+
+        if (state.isGameOver()) {
+            font.draw(batch, "GAME OVER!", 300, 300);
+            font.draw(batch, "Press 'R' to restart", 280, 270);
+            font.draw(batch, "Total Moves: " + state.getTotalMoves(), 290, 250);
+        }
+
+        batch.end();
     }
 
     private void debug(String message) {

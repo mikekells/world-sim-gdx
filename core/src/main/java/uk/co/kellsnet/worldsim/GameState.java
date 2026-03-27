@@ -14,6 +14,7 @@ public class GameState {
     private final Position playerSpawn;
     private int timesCaught = 0;
     private int successfulMoves = 0;
+    private int totalMoves = 0;
     private boolean gameOver = false;
 
     public GameState(TileMap tileMap, Position position) {
@@ -251,8 +252,13 @@ public class GameState {
         return successfulMoves;
     }
 
+    public int getTotalMoves() {
+        return totalMoves;
+    }
+
     private void recordSuccessfulMoves() {
         successfulMoves++;
+        totalMoves++;
         debug("[MOVE] Successful moves = " + getSuccessfulMoves());
     }
 
@@ -262,6 +268,8 @@ public class GameState {
 
         timesCaught = 0;
         successfulMoves = 0;
+        totalMoves = 0;
+
         gameOver = false;
 
         for (Entity entity : entities) {
