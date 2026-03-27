@@ -22,6 +22,7 @@ public class Main extends ApplicationAdapter {
     private Texture pillarTexture;
     private Texture playerTexture;
     private Texture npcTexture;
+    private Texture goalTexture;
     private TileRenderer tileRenderer;
     private OrthographicCamera camera;
     private BitmapFont font;
@@ -79,18 +80,24 @@ public class Main extends ApplicationAdapter {
         npcTexture = new Texture(npcPixmap);
         npcPixmap.dispose();
 
+        Pixmap goalPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
+        goalPixmap.setColor(1f, 0.5f, 0f, 1f);
+        goalPixmap.fill();
+        goalTexture = new Texture(goalPixmap);
+        goalPixmap.dispose();
+
         debug("[PLAYER] Starting position = (" + state.getPlayer().getPosition().getX() + ", " + state.getPlayer().getPosition().getY() + ")");
 
         updateCamera();
 
-        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture);
+        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture, goalTexture);
     }
 
     @Override
     public void render() {
         float delta = Gdx.graphics.getDeltaTime();
 
-        if (state.isGameOver()) {
+        if (state.isGameOver() || state.isGameWon()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
                 state.resetGame();
                 updateCamera();
@@ -180,6 +187,10 @@ public class Main extends ApplicationAdapter {
 
         if (state.isGameOver()) {
             font.draw(batch, "GAME OVER!", 300, 300);
+            font.draw(batch, "Press 'R' to restart", 280, 270);
+            font.draw(batch, "Total Moves: " + state.getTotalMoves(), 290, 250);
+        } else if (state.isGameWon()) {
+            font.draw(batch, "YOU WIN!", 300, 300);
             font.draw(batch, "Press 'R' to restart", 280, 270);
             font.draw(batch, "Total Moves: " + state.getTotalMoves(), 290, 250);
         }

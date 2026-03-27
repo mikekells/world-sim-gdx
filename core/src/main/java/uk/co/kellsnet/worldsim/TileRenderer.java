@@ -13,13 +13,15 @@ public class TileRenderer {
     private final Texture pillarTexture;
     private final Texture playerTexture;
     private final Texture npcTexture;
+    private final Texture goalTexture;
 
-    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture npcTexture, Texture floorTexture) {
+    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture npcTexture, Texture floorTexture, Texture goalTexture) {
         this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.pillarTexture = pillarTexture;
         this.playerTexture = playerTexture;
         this.npcTexture = npcTexture;
+        this.goalTexture = goalTexture;
     }
 
     public void render(SpriteBatch batch, TileMap tileMap, Player player, List<Entity> entities, OrthographicCamera camera) {
@@ -58,6 +60,7 @@ public class TileRenderer {
                 switch (tile) {
                     case WALL -> batch.draw(wallTexture, drawX, drawY);
                     case PILLAR -> batch.draw(pillarTexture, drawX, drawY);
+                    case GOAL -> batch.draw(goalTexture, drawX, drawY);
                     default -> {}
                 }
             }

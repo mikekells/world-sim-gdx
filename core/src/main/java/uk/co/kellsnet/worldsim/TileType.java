@@ -4,7 +4,8 @@ public enum TileType {
     FLOOR(true),
     WALL(false),
     PILLAR(false),
-    DOOR(true);
+    DOOR(true),
+    GOAL(true);
 
     private final boolean walkable;
 
