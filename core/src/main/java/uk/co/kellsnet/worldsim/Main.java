@@ -181,6 +181,7 @@ public class Main extends ApplicationAdapter {
         if (state.isGameOver()) {
             font.draw(batch, "GAME OVER!", 300, 300);
             font.draw(batch, "Press 'R' to restart", 280, 270);
+            font.draw(batch, "Total Moves: " + state.getTotalMoves(), 290, 250);
         }
 
         batch.end();
