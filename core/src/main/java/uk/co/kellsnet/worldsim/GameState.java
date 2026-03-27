@@ -16,6 +16,7 @@ public class GameState {
     private int successfulMoves = 0;
     private int totalMoves = 0;
     private boolean gameOver = false;
+    private boolean gameWon = false;
 
     public GameState(TileMap tileMap, Position position) {
         this.tileMap = tileMap;
@@ -62,7 +63,7 @@ public class GameState {
     }
 
     public boolean update(float delta) {
-        if (gameOver) {
+        if (gameOver || gameWon) {
             return false;
         }
 
@@ -96,8 +97,13 @@ public class GameState {
             handlePlayerCaught();
 
             if(!gameOver) {
-                playerReset =true;
+                playerReset = true;
             }
+        }
+
+        if(hasPlayerReachedGoal()) {
+            gameWon = true;
+            debug("[GAME] You reached the goal!");
         }
 
         return playerReset;
@@ -256,6 +262,16 @@ public class GameState {
         return totalMoves;
     }
 
+    public boolean isGameWon() {
+        return gameWon;
+    }
+
+    private boolean hasPlayerReachedGoal() {
+        Position p = player.getPosition();
+        TileType tile = tileMap.getTile(p.getX(), p.getY());
+        return tile == TileType.GOAL;
+    }
+
     private void recordSuccessfulMoves() {
         successfulMoves++;
         totalMoves++;
@@ -271,6 +287,7 @@ public class GameState {
         totalMoves = 0;
 
         gameOver = false;
+        gameWon = false;
 
         for (Entity entity : entities) {
             if (entity instanceof NPC npc) {

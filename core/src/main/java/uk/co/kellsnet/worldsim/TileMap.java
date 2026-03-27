@@ -19,6 +19,7 @@ public class TileMap {
         fillWithFloor();
         buildWalls();
         placePillar();
+        placeGoal();
     }
 
     private void placePillar() {
@@ -67,6 +68,10 @@ public class TileMap {
 
     public boolean inBounds(int dx, int dy) {
         return dx >= 0 && dx < width && dy >= 0 && dy < height;
+    }
+
+    private void placeGoal() {
+        tiles[height - 2][width - 2] = TileType.GOAL;
     }
 
 }
