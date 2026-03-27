@@ -198,6 +198,10 @@ public class Main extends ApplicationAdapter {
         batch.end();
     }
 
+    public void resize(int width, int height) {
+        uiMatrix.setToOrtho2D(0, 0, width, height);
+    }
+
     private void debug(String message) {
         if (Debug.ENABLED) {
             System.out.println(message);
