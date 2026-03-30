@@ -91,6 +91,9 @@ public class Main extends ApplicationAdapter {
         updateCamera();
 
         tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture, goalTexture);
+
+        Texture test = new Texture(Gdx.files.internal("player.png"));
+        System.out.println("Loaded player texture OK");
     }
 
     @Override
