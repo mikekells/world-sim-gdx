@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.ScreenUtils;
+import org.w3c.dom.Text;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
@@ -50,47 +51,19 @@ public class Main extends ApplicationAdapter {
 
         batch.setProjectionMatrix(camera.combined);
 
-        Pixmap floorPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
-        floorPixmap.setColor(0.1f, 0.5f, 0.1f, 1);
-        floorPixmap.fill();
-        floorTexture = new Texture(floorPixmap);
-        floorPixmap.dispose();
-
-        Pixmap wallPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
-        wallPixmap.setColor(1, 1, 1, 1);
-        wallPixmap.fill();
-        wallTexture = new Texture(wallPixmap);
-        wallPixmap.dispose();
-
-        Pixmap pillarPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
-        pillarPixmap.setColor(1, 0, 0, 1);
-        pillarPixmap.fill();
-        pillarTexture = new Texture(pillarPixmap);
-        pillarPixmap.dispose();
-
-        Pixmap playerPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
-        playerPixmap.setColor(0, 0, 1, 1);
-        playerPixmap.fill();
-        playerTexture = new Texture(playerPixmap);
-        playerPixmap.dispose();
-
-        Pixmap npcPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
-        npcPixmap.setColor(1, 1, 0, 1);
-        npcPixmap.fill();
-        npcTexture = new Texture(npcPixmap);
-        npcPixmap.dispose();
-
-        Pixmap goalPixmap = new Pixmap(TileMap.TILE_SIZE, TileMap.TILE_SIZE, Pixmap.Format.RGBA8888);
-        goalPixmap.setColor(1f, 0.5f, 0f, 1f);
-        goalPixmap.fill();
-        goalTexture = new Texture(goalPixmap);
-        goalPixmap.dispose();
+        floorTexture = new Texture(Gdx.files.internal("floor.png"));
+        wallTexture = new Texture(Gdx.files.internal("wall.png"));
+        pillarTexture = new Texture(Gdx.files.internal("pillar.png"));
+        playerTexture = new Texture(Gdx.files.internal("player.png"));
+        npcTexture = new Texture(Gdx.files.internal("npc.png"));
+        goalTexture = new Texture(Gdx.files.internal("goal.png"));
 
         debug("[PLAYER] Starting position = (" + state.getPlayer().getPosition().getX() + ", " + state.getPlayer().getPosition().getY() + ")");
 
         updateCamera();
 
         tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture, goalTexture);
+
     }
 
     @Override
@@ -131,6 +104,7 @@ public class Main extends ApplicationAdapter {
         pillarTexture.dispose();
         playerTexture.dispose();
         npcTexture.dispose();
+        goalTexture.dispose();
         font.dispose();
     }
 
@@ -196,6 +170,10 @@ public class Main extends ApplicationAdapter {
         }
 
         batch.end();
+    }
+
+    public void resize(int width, int height) {
+        uiMatrix.setToOrtho2D(0, 0, width, height);
     }
 
     private void debug(String message) {
