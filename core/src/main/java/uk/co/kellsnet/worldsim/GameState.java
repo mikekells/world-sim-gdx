@@ -36,6 +36,11 @@ public class GameState {
     }
 
     public boolean tryMovePlayer(int dx, int dy) {
+        if (player.isMoving()) {
+            debug("[MOVE] Blocked: player is still moving");
+            return false;
+        }
+
         Position p = getPlayer().getPosition();
 
         int targetX = p.getX() + dx;
@@ -52,7 +57,7 @@ public class GameState {
         debug("[MOVE] Target tile is " + tile);
 
         if (tile.isWalkable()) {
-            p.set(targetX, targetY);
+            player.moveTo(targetX, targetY);
             recordSuccessfulMoves();
             debug("[MOVE] Success: player now at (" + p.getX() + ", " + p.getY() + ")");
             debug("[MOVE] Stood on tile type: " + tile);
@@ -64,6 +69,8 @@ public class GameState {
     }
 
     public boolean update(float delta) {
+        updateEntityMovement(delta);
+
         if (gameOver || gameWon) {
             return false;
         }
@@ -127,6 +134,10 @@ public class GameState {
     }
 
     private void tryMoveNpc(NPC npc, int dx, int dy) {
+        if (npc.isMoving()) {
+            return;
+        }
+
         Position p = npc.getPosition();
 
         int targetX = p.getX() + dx;
@@ -139,7 +150,7 @@ public class GameState {
         TileType tile = tileMap.getTile(targetX, targetY);
 
         if (tile.isWalkable()) {
-            p.set(targetX, targetY);
+            npc.moveTo(targetX, targetY);
         }
     }
 
@@ -223,8 +234,16 @@ public class GameState {
     }
 
     public void resetPlayerToSpawn() {
-        player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
+        player.snapTo(playerSpawn.getX(), playerSpawn.getY());
         debug("[PLAYER] Reset to spawn at (" + playerSpawn.getX() + ", " + playerSpawn.getY() + ")");
+    }
+
+    private void updateEntityMovement(float delta) {
+        player.updateMovement(delta);
+
+        for (Entity entity : entities) {
+            entity.updateMovement(delta);
+        }
     }
 
     public int getTimesCaught() {
@@ -281,7 +300,7 @@ public class GameState {
 
     public void resetGame() {
         player.resetHealth(3);
-        player.getPosition().set(playerSpawn.getX(), playerSpawn.getY());
+        player.snapTo(playerSpawn.getX(), playerSpawn.getY());
 
         timesCaught = 0;
         successfulMoves = 0;

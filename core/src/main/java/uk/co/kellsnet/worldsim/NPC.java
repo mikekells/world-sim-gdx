@@ -49,7 +49,7 @@ public class NPC extends Entity {
     }
 
     public void resetToSpawn() {
-        getPosition().set(spawnPosition.getX(), spawnPosition.getY());
+        snapTo(spawnPosition.getX(), spawnPosition.getY());
         moveTimer = MathUtils.random(0f, 0.5f);
         playerNearby = false;
         touchingPlayer = false;
