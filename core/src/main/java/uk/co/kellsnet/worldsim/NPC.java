@@ -14,6 +14,7 @@ public class NPC extends Entity {
         super(position);
         this.spawnPosition = new Position(position.getX(), position.getY());
         this.moveTimer = MathUtils.random(0f, 0.5f);
+        setMoveDuration(1.12f);
     }
 
     public Position getSpawnPosition() {
