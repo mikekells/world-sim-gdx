@@ -109,8 +109,8 @@ public class Main extends ApplicationAdapter {
     }
 
     private void updateCamera() {
-        float playerCenterX = state.getPlayer().getPosition().getX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
-        float playerCenterY = state.getPlayer().getPosition().getY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+        float playerCenterX = state.getPlayer().getRenderX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
+        float playerCenterY = state.getPlayer().getRenderY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
 
         float worldWidth = state.getTileMap().getWidth() * TileMap.TILE_SIZE;
         float worldHeight = state.getTileMap().getHeight() * TileMap.TILE_SIZE;
