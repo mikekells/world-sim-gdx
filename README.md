@@ -100,7 +100,7 @@ Understanding how to convert between these systems is a key part of building a t
 
 - [x] Rendering layers
 - [x] Input repeat (hold key to move)
-- [ ] Smooth movement
+- [x] Smooth movement
 - [x] Entity system
 - [x] Basic NPC / enemy entities
 

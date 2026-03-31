@@ -66,10 +66,10 @@ public class TileRenderer {
             }
         }
 
-        batch.draw(playerTexture, player.getPosition().getX() * TileMap.TILE_SIZE, player.getPosition().getY() * TileMap.TILE_SIZE);
+        batch.draw(playerTexture, player.getRenderX() * TileMap.TILE_SIZE, player.getRenderY() * TileMap.TILE_SIZE);
 
         for (Entity entity : entities) {
-            batch.draw(npcTexture, entity.getPosition().getX() * TileMap.TILE_SIZE, entity.getPosition().getY() * TileMap.TILE_SIZE);
+            batch.draw(npcTexture, entity.getRenderX() * TileMap.TILE_SIZE, entity.getRenderY() * TileMap.TILE_SIZE);
         }
     }
 }
