@@ -52,15 +52,26 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
 
         floorTexture = new Texture(Gdx.files.internal("floor.png"));
+        floorTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         wallTexture = new Texture(Gdx.files.internal("wall.png"));
+        wallTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         pillarTexture = new Texture(Gdx.files.internal("pillar.png"));
+        pillarTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         playerTexture = new Texture(Gdx.files.internal("player.png"));
+        playerTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         npcTexture = new Texture(Gdx.files.internal("npc.png"));
+        npcTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         goalTexture = new Texture(Gdx.files.internal("goal.png"));
+        goalTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         debug("[PLAYER] Starting position = (" + state.getPlayer().getPosition().getX() + ", " + state.getPlayer().getPosition().getY() + ")");
 
-        updateCamera();
+        updateCamera(0f);
 
         tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture, goalTexture);
 
@@ -73,17 +84,13 @@ public class Main extends ApplicationAdapter {
         if (state.isGameOver() || state.isGameWon()) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
                 state.resetGame();
-                updateCamera();
             }
         } else {
             handleInput(delta);
         }
 
-        boolean playerReset = state.update(delta);
-
-        if (playerReset) {
-            updateCamera();
-        }
+        state.update(delta);
+        updateCamera(delta);
 
         ScreenUtils.clear(0f, 0f, 0f, 1f);
 
@@ -108,23 +115,30 @@ public class Main extends ApplicationAdapter {
         font.dispose();
     }
 
-    private void updateCamera() {
+    private void updateCamera(float delta) {
         float playerCenterX = state.getPlayer().getRenderX() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
         float playerCenterY = state.getPlayer().getRenderY() * TileMap.TILE_SIZE + TileMap.TILE_SIZE / 2f;
 
         float worldWidth = state.getTileMap().getWidth() * TileMap.TILE_SIZE;
         float worldHeight = state.getTileMap().getHeight() * TileMap.TILE_SIZE;
 
-        float halfViewportWidth = camera.viewportWidth / 2;
-        float halfViewportHeight = camera.viewportHeight / 2;
+        float halfViewportWidth = camera.viewportWidth / 2f;
+        float halfViewportHeight = camera.viewportHeight / 2f;
 
         playerCenterX = MathUtils.clamp(playerCenterX, halfViewportWidth, worldWidth - halfViewportWidth);
         playerCenterY = MathUtils.clamp(playerCenterY, halfViewportHeight, worldHeight - halfViewportHeight);
 
-        camera.position.set(playerCenterX, playerCenterY, 0);
+        float cameraLerpSpeed = 10f;
+        float alpha = Math.min(1f, cameraLerpSpeed * delta);
+
+        float smoothedX = MathUtils.lerp(camera.position.x, playerCenterX, alpha);
+        float smoothedY = MathUtils.lerp(camera.position.y, playerCenterY, alpha);
+
+        camera.position.set(Math.round(smoothedX), Math.round(smoothedY), 0);
         camera.update();
 
-        debug("[CAMERA] Clamped center = (" + playerCenterX + ", " + playerCenterY + ")");
+        debug("[CAMERA] Target = (" + playerCenterX + ", " + playerCenterY + ")");
+        debug("[CAMERA] Smoothed = (" + smoothedX + ", " + smoothedY + ")");
     }
 
     private void handleInput(float delta) {
@@ -146,9 +160,8 @@ public class Main extends ApplicationAdapter {
     private void attemptMove(int dx, int dy) {
         boolean moved = state.tryMovePlayer(dx, dy);
         if (moved) {
-            updateCamera();
+            moveTimer = moveDelay;
         }
-        moveTimer = moveDelay;
     }
 
     private void renderUi() {
