@@ -11,7 +11,7 @@ public class Entity {
     private float renderY;
 
     private float moveProgress = 1f;
-    private float moveDuration = 0.12f;
+    private float moveDuration = 0.17f;
     private boolean moving = false;
 
     public Entity(Position startPosition) {
