@@ -777,3 +777,34 @@ if (spawnTimer <= 0) {
     spawnTimer = spawnInterval
 }
 ```
+
+### Random
+
+---
+
+1st April 2026
+
+Today I have no code to commit.
+Today the green box won't light up... Or will it? 
+This sentence could feel like a scam but it's not.
+
+Today I spent time looking back at what was learned. Specifically regarding smooth
+movement. I've a world that generates using tiles at specific coordinates (x, y).
+We implemented interpolation, use of lerp
+
+Example:
+```
+    float cameraLerpSpeed = 10f;
+    float alpha = Math.min(1f, cameraLerpSpeed * delta);
+
+    float smoothedX = MathUtils.lerp(camera.position.x, playerCenterX, alpha);
+    float smoothedY = MathUtils.lerp(camera.position.y, playerCenterY, alpha);
+
+```
+
+to create a starting point and end point.
+This let's us to progress across that boundary. Enabling me to draw sprites more incrementally.
+
+Smooth movement! =D
+
+---
