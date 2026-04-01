@@ -794,16 +794,16 @@ We implemented interpolation, use of lerp
 
 Example:
 ```
-    float cameraLerpSpeed = 10f;
-    float alpha = Math.min(1f, cameraLerpSpeed * delta);
+float cameraLerpSpeed = 10f;
+float alpha = Math.min(1f, cameraLerpSpeed * delta);
 
-    float smoothedX = MathUtils.lerp(camera.position.x, playerCenterX, alpha);
-    float smoothedY = MathUtils.lerp(camera.position.y, playerCenterY, alpha);
+float smoothedX = MathUtils.lerp(camera.position.x, playerCenterX, alpha);
+float smoothedY = MathUtils.lerp(camera.position.y, playerCenterY, alpha);
 
 ```
 
 to create a starting point and end point.
-This let's us to progress across that boundary. Enabling me to draw sprites more incrementally.
+This let's me progress across that boundary. Enabling me to draw sprites more incrementally.
 
 Smooth movement! =D
 
