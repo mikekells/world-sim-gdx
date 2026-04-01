@@ -136,9 +136,6 @@ public class Main extends ApplicationAdapter {
 
         camera.position.set(Math.round(smoothedX), Math.round(smoothedY), 0);
         camera.update();
-
-        debug("[CAMERA] Target = (" + playerCenterX + ", " + playerCenterY + ")");
-        debug("[CAMERA] Smoothed = (" + smoothedX + ", " + smoothedY + ")");
     }
 
     private void handleInput(float delta) {
