@@ -74,4 +74,8 @@ public class Entity {
         moveProgress = 1f;
         moving = false;
     }
+
+    public float getMoveProgress() {
+        return moveProgress;
+    }
 }

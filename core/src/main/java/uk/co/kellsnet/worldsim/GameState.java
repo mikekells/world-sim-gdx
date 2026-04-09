@@ -41,6 +41,16 @@ public class GameState {
             return false;
         }
 
+        if (dx == 1) {
+            player.setFacing(Direction.RIGHT);
+        } else if ( dx == -1) {
+            player.setFacing(Direction.LEFT);
+        } else if (dy == 1) {
+            player.setFacing(Direction.UP);
+        } else if (dy == -1) {
+            player.setFacing(Direction.DOWN);
+        }
+
         Position p = getPlayer().getPosition();
 
         int targetX = p.getX() + dx;
