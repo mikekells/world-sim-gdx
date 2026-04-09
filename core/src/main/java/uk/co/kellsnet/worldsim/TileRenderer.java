@@ -68,7 +68,8 @@ public class TileRenderer {
         }
 
         int playerRow = getPlayerRow(player.getFacing());
-        TextureRegion playerFrame = playerFrames[playerRow][0];
+        int playerColumn = player.getAnimationColumn();
+        TextureRegion playerFrame = playerFrames[playerRow][playerColumn];
 
         batch.draw(playerFrame, player.getRenderX() * TileMap.TILE_SIZE, player.getRenderY() * TileMap.TILE_SIZE);
 

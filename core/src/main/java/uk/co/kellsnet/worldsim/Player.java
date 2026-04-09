@@ -29,4 +29,18 @@ public class Player extends Entity {
     public void setFacing(Direction facing) {
         this.facing = facing;
     }
+
+    public int getAnimationColumn() {
+        if (!isMoving()) {
+            return 0;
+        }
+
+        float progress = getMoveProgress();
+
+        if (progress < 0.5f) {
+            return 1;
+        } else {
+            return 2;
+        }
+    }
 }
