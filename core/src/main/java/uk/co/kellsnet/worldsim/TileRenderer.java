@@ -3,6 +3,7 @@ package uk.co.kellsnet.worldsim;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
 import java.util.List;
@@ -11,17 +12,17 @@ public class TileRenderer {
     private final Texture floorTexture;
     private final Texture wallTexture;
     private final Texture pillarTexture;
-    private final Texture playerTexture;
+    private final TextureRegion[][] playerFrames;
     private final Texture npcTexture;
     private final Texture goalTexture;
 
-    public TileRenderer(Texture wallTexture, Texture pillarTexture, Texture playerTexture, Texture npcTexture, Texture floorTexture, Texture goalTexture) {
+    public TileRenderer(Texture wallTexture, Texture pillarTexture, TextureRegion[][] playerFrames, Texture npcTexture, Texture floorTexture, Texture goalTexture) {
         this.floorTexture = floorTexture;
         this.wallTexture = wallTexture;
         this.pillarTexture = pillarTexture;
-        this.playerTexture = playerTexture;
         this.npcTexture = npcTexture;
         this.goalTexture = goalTexture;
+        this.playerFrames = playerFrames;
     }
 
     public void render(SpriteBatch batch, TileMap tileMap, Player player, List<Entity> entities, OrthographicCamera camera) {
@@ -66,10 +67,22 @@ public class TileRenderer {
             }
         }
 
-        batch.draw(playerTexture, player.getRenderX() * TileMap.TILE_SIZE, player.getRenderY() * TileMap.TILE_SIZE);
+        int playerRow = getPlayerRow(player.getFacing());
+        TextureRegion playerFrame = playerFrames[playerRow][0];
+
+        batch.draw(playerFrame, player.getRenderX() * TileMap.TILE_SIZE, player.getRenderY() * TileMap.TILE_SIZE);
 
         for (Entity entity : entities) {
             batch.draw(npcTexture, entity.getRenderX() * TileMap.TILE_SIZE, entity.getRenderY() * TileMap.TILE_SIZE);
         }
+    }
+
+    private int getPlayerRow(Direction direction) {
+        return switch(direction) {
+            case DOWN -> 0;
+            case LEFT -> 1;
+            case RIGHT -> 2;
+            case UP -> 3;
+        };
     }
 }

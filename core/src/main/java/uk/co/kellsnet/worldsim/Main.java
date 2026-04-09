@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -18,6 +19,7 @@ public class Main extends ApplicationAdapter {
 
     private SpriteBatch batch;
     private GameState state;
+    private TextureRegion[][] playerFrames;
     private Texture floorTexture;
     private Texture wallTexture;
     private Texture pillarTexture;
@@ -60,8 +62,9 @@ public class Main extends ApplicationAdapter {
         pillarTexture = new Texture(Gdx.files.internal("pillar.png"));
         pillarTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-        playerTexture = new Texture(Gdx.files.internal("player.png"));
+        playerTexture = new Texture(Gdx.files.internal("player_walk.png"));
         playerTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        playerFrames = TextureRegion.split(playerTexture, 32, 32);
 
         npcTexture = new Texture(Gdx.files.internal("npc.png"));
         npcTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -73,7 +76,7 @@ public class Main extends ApplicationAdapter {
 
         updateCamera(0f);
 
-        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerTexture, npcTexture, floorTexture, goalTexture);
+        tileRenderer = new TileRenderer(wallTexture, pillarTexture, playerFrames, npcTexture, floorTexture, goalTexture);
 
     }
 
